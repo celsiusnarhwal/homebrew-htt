@@ -1,9 +1,9 @@
-# celsiusnarhwal/formulae
+# Houkago Tea Tap
 
-This repository is the tap for [Homebrew](https://brew.sh) distributions of my software.
+The Houkago Tea Tap is the repository for Homebrew distributions of my software.
 
 ```bash
-brew tap celsiusnarhwal/formulae
+brew tap celsiusnarhwal/htt
 ```
 
 Formulae can be found inside the [Formula](/Formula) folder. For information on specific formulae in this tap,
