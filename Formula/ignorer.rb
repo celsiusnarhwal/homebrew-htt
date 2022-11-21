@@ -5,8 +5,8 @@ class Ignorer < Formula
 
   desc "Generate .gitignore files from your command line"
   homepage "https://github.com/celsiusnarhwal/ignorer"
-  url "https://files.pythonhosted.org/packages/a7/b7/63d43b9fdc0d3af06b31aabc7c4a0814f9be4df380e9f1543b6a9cf53427/ignorer-1.0.0.tar.gz"
-  sha256 "1404b6f3430cff4cf6cc52dc73145f9e859a05f805201ddb82287106c3cc4c73"
+  url "https://files.pythonhosted.org/packages/38/c6/b658c1a532e895aea6a7eff813297600921b5b557a3bcf296e0ee3e6c64c/ignorer-1.0.1.tar.gz"
+  sha256 "214b1b8fec360611de1010da02695afb97ced7a9102b51795d45fda46e7c11cc"
 
   depends_on "python@3.10"
 
@@ -31,8 +31,8 @@ class Ignorer < Formula
   end
 
   resource "prompt-toolkit" do
-    url "https://files.pythonhosted.org/packages/e2/d9/1009dbb3811fee624af34df9f460f92b51edac528af316eb5770f9fbd2e1/prompt_toolkit-3.0.32.tar.gz"
-    sha256 "e7f2129cba4ff3b3656bbdda0e74ee00d2f874a8bcdb9dd16f5fec7b3e173cae"
+    url "https://files.pythonhosted.org/packages/c4/6e/6ff7938f47981305a801a4c5b8d8ed282b58a28c01c394d43c1fbcfc810b/prompt_toolkit-3.0.33.tar.gz"
+    sha256 "535c29c31216c77302877d5120aef6c94ff573748a5b5ca5b1b1f76f5e700c73"
   end
 
   resource "pydantic" do
