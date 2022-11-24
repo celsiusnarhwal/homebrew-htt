@@ -7,7 +7,7 @@ brew tap celsiusnarhwal/htt
 ```
 
 Formulae can be found inside the [Formula](/Formula) folder. For information on specific formulae in this tap,
-refer to the link at the top of the relevant formula.
+refer to the comment at the top of the relevant formula.
 
 ## License
 
