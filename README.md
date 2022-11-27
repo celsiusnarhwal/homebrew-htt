@@ -1,6 +1,6 @@
 # Houkago Tea Tap
 
-The Houkago Tea Tap is the repository for [Homebrew](https://brew.sh) formulae that I personally maintain (and that are not necessarily for my software).
+The Houkago Tea Tap is the repository for [Homebrew](https://brew.sh) distributions of my software.
 
 ```bash
 brew tap celsiusnarhwal/htt
