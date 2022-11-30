@@ -5,8 +5,8 @@ class Schemarin < Formula
 
   desc "A color scheme manager for iTerm2"
   homepage "https://schemarin.celsiusnarhwal.dev"
-  url "https://files.pythonhosted.org/packages/26/c8/4d39c8d18afbb4048344b28ac5dcf650c43d7168d080000681c0df9c680a/schemarin-1.0.0.tar.gz"
-  sha256 "f0ec73aa293c081e8592407947d193e65de9955505cd4640a429809bdd104a55"
+  url "https://files.pythonhosted.org/packages/b3/04/ab0f593b403d13ddab7dfc2ad548cf3f4014387c3533397e5ef2fbfde50c/schemarin-1.0.1.tar.gz"
+  sha256 "99350dbf77c6f5538ccbac7edb9cb074ce11da4d650d38b92d7f937b61befeb7"
 
   depends_on "python3"
 
