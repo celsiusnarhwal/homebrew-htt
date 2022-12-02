@@ -1,5 +1,6 @@
 # Homebrew formula for Schemarin. https://github.com/celsiusnarhwal/schemarin
 
+
 class Schemarin < Formula
   include Language::Python::Virtualenv
 
