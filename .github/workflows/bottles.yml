@@ -21,7 +21,7 @@ jobs:
 
       - name: Get Updated Formulae
         id: updated-formulae
-        uses: tj-actions/changedfiles@v34
+        uses: tj-actions/changed-files@v34
         with:
           files: |
             Formula/*.rb
