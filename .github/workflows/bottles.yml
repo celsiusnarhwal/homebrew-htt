@@ -29,10 +29,10 @@ jobs:
       - name: Build Bottles for Updated Formulae
         if: steps.updated-formulae.outputs.any_changed == 'true'
         run: |
-          chmod +x ./.github/workflows/scripts/bottle.sh
+          chmod +x bottle.sh
           
           for file in ${{ steps.updated-formulae.outputs.all_changed_files }}; do
-            ./.github/workflows/scripts/bottle.sh $(basename $file)
+            ./bottle.sh $(basename $file .rb)
           done
           
           mv *.tar.gz Bottles/
