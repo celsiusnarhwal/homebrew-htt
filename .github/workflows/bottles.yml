@@ -1,3 +1,5 @@
+name: Bottles
+
 on:
   push:
     branches:
@@ -103,6 +105,7 @@ jobs:
 
       - name: Build Bottles
         run: |
+          brew tap celsiusnarhwal/htt
           cd houkago-tea-tap
           chmod +x ./bottle.sh && ./bottle.sh ${{ needs.check-formulae.outputs.formulae }}
 
