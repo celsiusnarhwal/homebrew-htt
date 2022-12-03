@@ -9,6 +9,7 @@ class Schemarin < Formula
   sha256 "c2e045894bad4406d935935aa883e156ce0613335383f9065672f43480ce1eef"
 
   depends_on "python3"
+  depends_on "libgit2"
 
   resource "aiohttp" do
     url "https://files.pythonhosted.org/packages/ff/4f/62d9859b7d4e6dc32feda67815c5f5ab4421e6909e48cbc970b6a40d60b7/aiohttp-3.8.3.tar.gz"
