@@ -2,6 +2,10 @@
 
 formulae=$1
 
+# Install Git LFS
+brew install git-lfs
+git lfs install
+
 # Tap HTT
 brew tap celsiusnarhwal/htt
 
