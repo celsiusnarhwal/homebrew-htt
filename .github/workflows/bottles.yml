@@ -10,8 +10,13 @@ jobs:
   check-formulae:
     runs-on: macos-latest
     name: Build Bottles
-    if: github.event.commits[0].author.name != "celsius narhwal"
     steps:
+      - name: Check Commit Author
+        run: |
+          if [ "${{ github.event.pusher.username }}" == "github-actions[bot]" ]; then
+            echo "This commit was made by a bot. Exiting..."
+            exit 1
+          fi
       - name: Checkout Repository
         uses: actions/checkout@v3
         with:
