@@ -10,6 +10,7 @@ jobs:
   check-formulae:
     runs-on: macos-latest
     name: Build Bottles
+    if: github.event.commits[0].author.name != "github-actions[bot]"
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -107,6 +108,11 @@ jobs:
         with:
           path: houkago-tea-tap
           token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set Commmit Author to GitHub Actions
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
       - name: Build Bottles
         run: |
