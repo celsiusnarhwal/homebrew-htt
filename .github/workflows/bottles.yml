@@ -10,7 +10,7 @@ jobs:
   check-formulae:
     runs-on: macos-latest
     name: Build Bottles
-    if: github.event.commits[0].author.email != "hello@celsiusnarhwal.dev
+    if: github.event.commits[0].author.email != "hello@celsiusnarhwal.dev"
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
