@@ -52,6 +52,7 @@ jobs:
 
       - name: Build Bottles
         run: |
+          brew tap celsiusnarhwal/htt
           for formula in ${{ needs.check-formulae.outputs.formulae }}
           do
             brew install --build-bottle $(basename $formula .rb)
@@ -84,6 +85,7 @@ jobs:
 
       - name: Build Bottles
         run: |
+          brew tap celsiusnarhwal/htt
           for formula in ${{ needs.check-formulae.outputs.formulae }}
           do
             brew install --build-bottle $(basename $formula .rb)
@@ -121,13 +123,14 @@ jobs:
 
       - name: Build Bottles
         run: |
+          brew tap celsiusnarhwal/htt
           for formula in ${{ needs.check-formulae.outputs.formulae }}
           do
             brew install --build-bottle $(basename $formula .rb)
             brew bottle --json $(basename $formula .rb)
             json_file=$(find . -name "*.json")
             brew bottle --merge --write "$json_file"
-          end
+          done
           
           mv *.tar.gz houkago-tea-tap/Bottles
           cd houkago-tea-tap
