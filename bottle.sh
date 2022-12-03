@@ -1,15 +1,25 @@
 #!/usr/bin/env bash
 
-formula=$1
+formulae=$1
 
-brew install libgit2
-brew install --build-bottle celsiusnarhwal/htt/"$formula"
-brew bottle --json "$formula" --root-url=https://github.com/celsiusnarhwal/homebrew-htt/blob/HEAD/Bottles
+# Tap HTT
+brew tap celsiusnarhwal/htt
 
-json_file=$(find . -name "*.json")
-python bottler.py "$json_file"
+for formula in $formulae; do
+  # Bottle formula
+  brew install --build-bottle "$(basename "$formula" .rb)"
+  brew bottle --json "$(basename "$formula" .rb)"
 
-bottle_file=$(find . -name "*.tar.gz")
-echo "Uploading $bottle_file"
+  # Merge DSL
+  json_file=$(find . -name "*.json")
+  brew bottle --merge --write "$json_file"
+done
 
-brew bottle --merge --write "$json_file" --no-commit
+# Commit and push changes
+cd "$(brew --prefix)"/Homebrew/Library/Taps/celsiusnarhwal/homebrew-htt || exit
+mv ./*.tar.gz Bottles
+git lfs track "*.tar.gz"
+git add -A
+git commit -m "Update bottles"
+git pull --merge
+git push
