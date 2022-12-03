@@ -19,7 +19,6 @@ done
 cd "$(brew --prefix)"/Homebrew/Library/Taps/celsiusnarhwal/homebrew-htt || exit
 mv ./*.tar.gz Bottles
 git lfs track "*.tar.gz"
-git add -A
-git commit -m "Update bottles"
+git add -A && git commit -m "Update bottles"
 git pull --merge
 git push

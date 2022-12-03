@@ -58,7 +58,7 @@ jobs:
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
       - name: Build Bottles
-        run: chmod +x bottle.sh && ./bottle.sh
+        run: chmod +x bottle.sh && ./bottle.sh ${{ needs.check-formulae.outputs.formulae }}
 
   bottle-macos-12:
     name: Bottle for macOS Monterey
@@ -78,7 +78,7 @@ jobs:
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
       - name: Build Bottles
-        run: chmod +x bottle.sh && ./bottle.sh
+        run: chmod +x bottle.sh && ./bottle.sh ${{ needs.check-formulae.outputs.formulae }}
 
   bottle-macos-latest:
     name: Bottle for Latest macOS
@@ -98,7 +98,7 @@ jobs:
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
       - name: Build Bottles
-        run: chmod +x bottle.sh && ./bottle.sh
+        run: chmod +x bottle.sh && ./bottle.sh ${{ needs.check-formulae.outputs.formulae }}
 
           
 
