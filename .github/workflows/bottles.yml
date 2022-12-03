@@ -50,6 +50,11 @@ jobs:
           path: houkago-tea-tap
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Set Commmit Author to GitHub Actions
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
       - name: Build Bottles
         run: |
           brew tap celsiusnarhwal/htt
@@ -82,6 +87,11 @@ jobs:
         with:
           path: houkago-tea-tap
           token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set Commmit Author to GitHub Actions
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
       - name: Build Bottles
         run: |
