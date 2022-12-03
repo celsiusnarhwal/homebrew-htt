@@ -53,12 +53,12 @@ jobs:
       - name: Build Bottles
         run: |
           for formula in ${{ needs.check-formulae.outputs.formulae }}
-            do
-              brew install --build-bottle $(basename $formula .rb)
-              brew bottle --json $(basename $formula .rb)
-              json_file=$(find . -name "*.json")
-              brew bottle --merge --write "$json_file"
-            end
+          do
+            brew install --build-bottle $(basename $formula .rb)
+            brew bottle --json $(basename $formula .rb)
+            json_file=$(find . -name "*.json")
+            brew bottle --merge --write "$json_file"
+          done
           
           mv *.tar.gz houkago-tea-tap/Bottles
           cd houkago-tea-tap
@@ -85,12 +85,12 @@ jobs:
       - name: Build Bottles
         run: |
           for formula in ${{ needs.check-formulae.outputs.formulae }}
-            do
-              brew install --build-bottle $(basename $formula .rb)
-              brew bottle --json $(basename $formula .rb)
-              json_file=$(find . -name "*.json")
-              brew bottle --merge --write "$json_file"
-            end
+          do
+            brew install --build-bottle $(basename $formula .rb)
+            brew bottle --json $(basename $formula .rb)
+            json_file=$(find . -name "*.json")
+            brew bottle --merge --write "$json_file"
+          done
           
           mv *.tar.gz houkago-tea-tap/Bottles
           cd houkago-tea-tap
@@ -122,12 +122,12 @@ jobs:
       - name: Build Bottles
         run: |
           for formula in ${{ needs.check-formulae.outputs.formulae }}
-            do
-              brew install --build-bottle $(basename $formula .rb)
-              brew bottle --json $(basename $formula .rb)
-              json_file=$(find . -name "*.json")
-              brew bottle --merge --write "$json_file"
-            end
+          do
+            brew install --build-bottle $(basename $formula .rb)
+            brew bottle --json $(basename $formula .rb)
+            json_file=$(find . -name "*.json")
+            brew bottle --merge --write "$json_file"
+          end
           
           mv *.tar.gz houkago-tea-tap/Bottles
           cd houkago-tea-tap
