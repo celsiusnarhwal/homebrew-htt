@@ -49,7 +49,7 @@ jobs:
 
     steps:
       - name: Build Bottles
-        uses: celsiusnarhwal/actions/houkago-tea-bottler@main
+        uses: celsiusnarhwal/houkago-tea-bottler@main
         with:
           formulae: ${{ needs.check-formulae.outputs.formulae }}
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -61,7 +61,7 @@ jobs:
 
     steps:
       - name: Build Bottles
-        uses: celsiusnarhwal/actions/houkago-tea-bottler@main
+        uses: celsiusnarhwal/houkago-tea-bottler@main
         with:
           formulae: ${{ needs.check-formulae.outputs.formulae }}
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -73,7 +73,7 @@ jobs:
 
     steps:
       - name: Build Bottles
-        uses: celsiusnarhwal/actions/houkago-tea-bottler@main
+        uses: celsiusnarhwal/houkago-tea-bottler@main
         with:
           formulae: ${{ needs.check-formulae.outputs.formulae }}
           token: ${{ secrets.GITHUB_TOKEN }}
