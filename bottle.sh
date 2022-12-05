@@ -2,12 +2,12 @@
 
 formulae=$1
 
-# Install Git LFS
-brew install git-lfs
-git lfs install
 
 # Tap HTT
 brew tap celsiusnarhwal/htt
+
+# Authenticate with GHCR
+echo "$GITHUB_TOKEN" | docker login ghcr.io -u celsiusnarhwal --password-stdin
 
 for formula in $formulae; do
   # Bottle formula
@@ -16,13 +16,19 @@ for formula in $formulae; do
 
   # Merge DSL
   json_file=$(find . -name "*.json")
-  brew bottle --merge --write "$json_file"
+  brew bottle --merge --write "$json_file" --root-url="https://ghcr.io/v2/celsiusnarhwal/homebrew-htt"
 done
+
+bottles=$(find . -name "*.tar.gz")
+for bottle in $bottles; do
+  sha256=$(docker import "$bottle")
+  docker tag "$sha256" ghcr.io/celsiusnarhwal/homebrew-htt:"$(basename "$bottle" .tar.gz)"
+  docker push ghcr.io/celsiusnarhwal/homebrew-htt:"$(basename "$bottle" .tar.gz)"
+done
+
 
 # Commit and push changes
 cd "$(brew --prefix)"/Homebrew/Library/Taps/celsiusnarhwal/homebrew-htt || exit
-mv ./*.tar.gz Bottles
-git lfs track "*.tar.gz"
 git add -A && git commit -m "Update bottles"
 git pull --merge
 git push
