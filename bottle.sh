@@ -6,8 +6,9 @@ formulae=$1
 # Tap HTT
 brew tap celsiusnarhwal/htt
 
-# Install Docker
+# Install and start Docker
 brew install docker
+systemctl start docker
 
 # Authenticate with GHCR
 echo "$GITHUB_TOKEN" | docker login ghcr.io -u celsiusnarhwal --password-stdin
