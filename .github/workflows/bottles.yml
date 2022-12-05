@@ -7,9 +7,6 @@ on:
 
   workflow_dispatch:
 
-env:
-  ROOT_URL: https://github.com/celsiusnarhwal/htt
-
 jobs:
   check-formulae:
     runs-on: macos-latest
@@ -38,7 +35,7 @@ jobs:
         run: |
           if [ "${{ steps.updated-formulae.outputs.any_changed }}" == "false" ]; then
             echo "No formulae were updated, skipping bottle build."
-            exit 1 
+            exit 0
           fi
 
     outputs:
@@ -55,15 +52,21 @@ jobs:
     steps:
       - name: Build Bottles
         run: |
-          brew tap celsiusnarhwal/htt
-          for formula in ${{ needs.check-formulae.outputs.formulae }}; do
-            formula_name=$(basename $formula .rb)
+            formula_name=openssl
             brew install --build-bottle $formula_name
-            brew bottle --json $formula_name
-            
+            brew bottle $formula_name --json --root-url ghcr.io/celsiusnarhwal/htt
+
             json_file=$(find . -name "$formula_name*.json")
-            brew bottle --merge --write $json_file --root-url ${{ env.ROOT_URL }}
-          done
+            brew bottle --merge --write $json_file
+      #          brew tap celsiusnarhwal/htt
+#          for formula in ${{ needs.check-formulae.outputs.formulae }}; do
+#            formula_name=$(basename $formula .rb)
+#            brew install --build-bottle $formula_name
+#            brew bottle $formula_name --json --root-url ${{ env.ROOT_URL }}
+#
+#            json_file=$(find . -name "$formula_name*.json")
+#            brew bottle --merge --write $json_file
+#          done
 
       - name: Upload Bottles
         uses: actions/upload-artifact@v3
@@ -92,11 +95,11 @@ jobs:
 
       - name: Push to GHCR
         run: |
+          root_url=ghcr.io/celsiusnarhwal/htt
           bottles=$(find . -name "*.tar.gz")
           for bottle in $bottles; do
             formula_name=$(echo $bottle | cut -d'/' -f2 | cut -d'-' -f1)
-            version=$(echo $bottle | sed -E "s/.*$formula_name-([0-9.]+)\.tar\.gz/\1/")
-            root_url=${{ env.ROOT_URL }}
+            version=$(echo $bottle | grep -o "[0.9].[0-9].[0-9]")
           
             sha256=$(docker import $bottle | sed -E "s/.*sha256:(.*)/\1/")
             docker tag $sha256 "$root_url/$formula_name:$version@sha256:$sha256"
