@@ -55,8 +55,9 @@ jobs:
     steps:
       - name: Build Bottles
         run: |
+          brew tap celsiusnarhwal/htt
           for formula in ${{ needs.check-formulae.outputs.formulae }}; do
-            brew install --build-bottle $formula
+            brew install --build-bottle $(basename $formula .rb)
             brew bottle $formula
             
             json_file=$(find . -name $formula*.json)
@@ -93,11 +94,11 @@ jobs:
           bottles=$(find . -name *.tar.gz)
           for bottle in $bottles; do
             formula_name=$(echo $bottle | cut -d'/' -f2 | cut -d'-' -f1)
-            version=$(echo "$bottle" | sed -E "s/.*$formula_name-([0-9.]+)\.tar\.gz/\1/")
+            version=$(echo $bottle | sed -E "s/.*$formula_name-([0-9.]+)\.tar\.gz/\1/")
             root_url = ${{ env.ROOT_URL }}
           
-            sha256=$(docker import "$bottle" | sed -E "s/.*sha256:(.*)/\1/")
-            docker tag "$sha256" "$root_url/$formula_name:$version@sha256:$sha256"
+            sha256=$(docker import $bottle | sed -E "s/.*sha256:(.*)/\1/")
+            docker tag $sha256 "$root_url/$formula_name:$version@sha256:$sha256"
             docker push "$root-url/$formula_name:$version@sha256:$sha256"
           done
 
