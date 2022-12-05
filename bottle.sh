@@ -8,10 +8,6 @@ brew tap celsiusnarhwal/htt
 
 # Install and start Docker
 brew install docker
-systemctl start docker
-
-# Authenticate with GHCR
-echo "$GITHUB_TOKEN" | docker login ghcr.io -u celsiusnarhwal --password-stdin
 
 for formula in $formulae; do
   formula_name="$(basename "$formula" .rb)"
@@ -25,6 +21,8 @@ for formula in $formulae; do
 
   bottle=$(find . -name "$formula_name*.tar.gz")
   version=$(echo "$bottle" | sed -E "s/.*$formula_name-([0-9.]+)\.tar\.gz/\1/")
+  systemctl start docker
+  echo "$GITHUB_TOKEN" | docker login ghcr.io -u celsiusnarhwal --password-stdin
   sha256=$(docker import "$bottle" | sed -E "s/.*sha256:(.*)/\1/")
   docker tag "$sha256" "$root_url/$formula_name:$version@sha256:$sha256"
   docker push "$root_url/$formula_name:$version@sha256:$sha256"
