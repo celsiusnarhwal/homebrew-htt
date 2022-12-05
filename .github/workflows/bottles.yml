@@ -48,21 +48,11 @@ jobs:
     runs-on: macos-11
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
-        with:
-          path: houkago-tea-tap
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Set Commmit Author to GitHub Actions
-        run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
       - name: Build Bottles
-        run: |
-          cd houkago-tea-tap
-          chmod +x ./bottle.sh && ./bottle.sh ${{ needs.check-formulae.outputs.formulae }}
+        uses: celsiusnarhwal/actions/houkago-tea-bottler@main
+        with:
+          formulae: ${{ needs.check-formulae.outputs.formulae }}
+          token: ${{ secrets.GITHUB_TOKEN }}
 
   bottle-macos-12:
     name: Bottle for macOS Monterey
@@ -70,21 +60,11 @@ jobs:
     runs-on: macos-12
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
-        with:
-          path: houkago-tea-tap
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Set Commmit Author to GitHub Actions
-        run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
       - name: Build Bottles
-        run: |
-          cd houkago-tea-tap
-          chmod +x ./bottle.sh && ./bottle.sh ${{ needs.check-formulae.outputs.formulae }}
+        uses: celsiusnarhwal/actions/houkago-tea-bottler@main
+        with:
+          formulae: ${{ needs.check-formulae.outputs.formulae }}
+          token: ${{ secrets.GITHUB_TOKEN }}
 
   bottle-macos-latest:
     name: Bottle for Latest macOS
@@ -92,21 +72,11 @@ jobs:
     runs-on: macos-latest
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
-        with:
-          path: houkago-tea-tap
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Set Commmit Author to GitHub Actions
-        run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
       - name: Build Bottles
-        run: |
-          cd houkago-tea-tap
-          chmod +x ./bottle.sh && ./bottle.sh ${{ needs.check-formulae.outputs.formulae }}
+        uses: celsiusnarhwal/actions/houkago-tea-bottler@main
+        with:
+          formulae: ${{ needs.check-formulae.outputs.formulae }}
+          token: ${{ secrets.GITHUB_TOKEN }}
 
           
 
