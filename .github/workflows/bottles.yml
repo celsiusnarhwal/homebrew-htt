@@ -96,13 +96,12 @@ jobs:
 
       - name: Push to GHCR
         run: |
-          root_url=ghcr.io/celsiusnarhwal/htt
           bottles=$(find . -name "*.tar.gz")
           for bottle in $bottles; do
             formula_name=$(echo $bottle | cut -d'/' -f2 | cut -d'-' -f1)
             version=$(echo $bottle | grep -o "[0.9].[0-9].[0-9]")
           
             sha256=$(docker import $bottle | sed -E "s/.*sha256:(.*)/\1/")
-            docker tag $sha256 "$root_url/$formula_name:$version@sha256:$sha256"
-            docker push "$root-url/$formula_name:$version@sha256:$sha256"
+            docker tag $sha256 "ghcr.io/celsiusnarhwal/htt/$formula_name:$version@sha256:$sha256"
+            docker push "ghcr.io/celsiusnarhwal/htt/$formula_name:$version@sha256:$sha256"
           done
