@@ -59,7 +59,7 @@ jobs:
           for formula in ${{ needs.check-formulae.outputs.formulae }}; do
             formula_name=$(basename $formula .rb)
             brew install --build-bottle $formula_name
-            brew bottle $formula
+            brew bottle --json $formula_name
             
             json_file=$(find . -name $formula_name*.json)
             brew bottle --merge --write $json_file --root-url ${{ env.ROOT_URL }}
