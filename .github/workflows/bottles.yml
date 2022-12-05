@@ -57,10 +57,11 @@ jobs:
         run: |
           brew tap celsiusnarhwal/htt
           for formula in ${{ needs.check-formulae.outputs.formulae }}; do
-            brew install --build-bottle $(basename $formula .rb)
+            formula_name=$(basename $formula .rb)
+            brew install --build-bottle $formula_name
             brew bottle $formula
             
-            json_file=$(find . -name $formula*.json)
+            json_file=$(find . -name $formula_name*.json)
             brew bottle --merge --write $json_file --root-url ${{ env.ROOT_URL }}
           done
 
@@ -101,11 +102,3 @@ jobs:
             docker tag $sha256 "$root_url/$formula_name:$version@sha256:$sha256"
             docker push "$root-url/$formula_name:$version@sha256:$sha256"
           done
-
-            
-
-
-
-          
-
-
