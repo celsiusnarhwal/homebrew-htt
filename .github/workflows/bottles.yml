@@ -7,6 +7,8 @@ on:
 
   workflow_dispatch:
 
+env:
+  ROOT_URL: https://github.com/celsiusnarhwal/htt
 
 jobs:
   check-formulae:
@@ -42,41 +44,66 @@ jobs:
     outputs:
       formulae: ${{ steps.updated-formulae.outputs.all_changed_files }}
 
-  bottle-macos-11:
-    name: Bottle for macOS Big Sur
+  build-bottles:
+    name: Build Bottles
     needs: check-formulae
-    runs-on: macos-11
+    strategy:
+      matrix:
+        os: [macos-11, macos-12, macos-latest]
+    runs-on: ${{ matrix.os }}
 
     steps:
       - name: Build Bottles
-        uses: celsiusnarhwal/houkago-tea-bottler@main
-        with:
-          formulae: ${{ needs.check-formulae.outputs.formulae }}
-          token: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          for formula in ${{ needs.check-formulae.outputs.formulae }}; do
+            brew install --build-bottle $formula
+            brew bottle $formula
+            
+            json_file=$(find . -name $formula*.json)
+            brew bottle --merge --write $json_file --root-url ${{ env.ROOT_URL }}
+          done
 
-  bottle-macos-12:
-    name: Bottle for macOS Monterey
-    needs: check-formulae
-    runs-on: macos-12
+      - name: Upload Bottles
+        uses: actions/upload-artifact@v3
+        with:
+          name: bottles
+          path: ./*.tar.gz
+
+  push-bottles:
+    name: Push Bottles
+    needs: build-bottles
+    runs-on: ubuntu-latest
 
     steps:
-      - name: Build Bottles
-        uses: celsiusnarhwal/houkago-tea-bottler@main
+      - name: Download Bottles
+        uses: actions/download-artifact@v3
         with:
-          formulae: ${{ needs.check-formulae.outputs.formulae }}
-          token: ${{ secrets.GITHUB_TOKEN }}
+          name: bottles
+          path: .
 
-  bottle-macos-latest:
-    name: Bottle for Latest macOS
-    needs: check-formulae
-    runs-on: macos-latest
-
-    steps:
-      - name: Build Bottles
-        uses: celsiusnarhwal/houkago-tea-bottler@main
+      - name: Authenticate to GHCR
+        uses: docker/login-action@v2
         with:
-          formulae: ${{ needs.check-formulae.outputs.formulae }}
-          token: ${{ secrets.GITHUB_TOKEN }}
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push to GHCR
+        run: |
+          bottles=$(find . -name *.tar.gz)
+          for bottle in $bottles; do
+            formula_name=$(echo $bottle | cut -d'/' -f2 | cut -d'-' -f1)
+            version=$(echo "$bottle" | sed -E "s/.*$formula_name-([0-9.]+)\.tar\.gz/\1/")
+            root_url = ${{ env.ROOT_URL }}
+          
+            sha256=$(docker import "$bottle" | sed -E "s/.*sha256:(.*)/\1/")
+            docker tag "$sha256" "$root_url/$formula_name:$version@sha256:$sha256"
+            docker push "$root-url/$formula_name:$version@sha256:$sha256"
+          done
+
+            
+
+
 
           
 

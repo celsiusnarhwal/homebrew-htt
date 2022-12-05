@@ -6,9 +6,6 @@ root_url="https://ghcr.io/v2/celsiusnarhwal/htt"
 # Tap HTT
 brew tap celsiusnarhwal/htt
 
-# Install and start Docker
-brew install docker
-
 for formula in $formulae; do
   formula_name="$(basename "$formula" .rb)"
   # Bottle formula
