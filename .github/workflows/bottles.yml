@@ -96,7 +96,7 @@ jobs:
           for bottle in $bottles; do
             formula_name=$(echo $bottle | cut -d'/' -f2 | cut -d'-' -f1)
             version=$(echo $bottle | sed -E "s/.*$formula_name-([0-9.]+)\.tar\.gz/\1/")
-            root_url = ${{ env.ROOT_URL }}
+            root_url=${{ env.ROOT_URL }}
           
             sha256=$(docker import $bottle | sed -E "s/.*sha256:(.*)/\1/")
             docker tag $sha256 "$root_url/$formula_name:$version@sha256:$sha256"
