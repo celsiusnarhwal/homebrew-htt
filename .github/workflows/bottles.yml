@@ -61,7 +61,7 @@ jobs:
             brew install --build-bottle $formula_name
             brew bottle --json $formula_name
             
-            json_file=$(find . -name $formula_name*.json)
+            json_file=$(find . -name "$formula_name*.json")
             brew bottle --merge --write $json_file --root-url ${{ env.ROOT_URL }}
           done
 
@@ -92,7 +92,7 @@ jobs:
 
       - name: Push to GHCR
         run: |
-          bottles=$(find . -name *.tar.gz)
+          bottles=$(find . -name "*.tar.gz")
           for bottle in $bottles; do
             formula_name=$(echo $bottle | cut -d'/' -f2 | cut -d'-' -f1)
             version=$(echo $bottle | sed -E "s/.*$formula_name-([0-9.]+)\.tar\.gz/\1/")
