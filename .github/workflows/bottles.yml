@@ -52,6 +52,7 @@ jobs:
     steps:
       - name: Build Bottles
         run: |
+            brew tap celsiusnarhwal/htt
             formula_name=emdy
             brew install --build-bottle $formula_name
             brew bottle $formula_name --json --root-url ghcr.io/celsiusnarhwal/htt
