@@ -68,6 +68,7 @@ jobs:
 
   push-bottles:
     name: Push Bottles
+    needs: build-bottles
     runs-on: ubuntu-latest
     steps:
       - name: Download Bottles
@@ -89,7 +90,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ghcr.io/celsiusnarhwal/htt/${{ matrix.formula }}
+          tags: ghcr.io/celsiusnarhwal/htt/$(basename ${{ needs.build-bottles.needs.check-formula.outputs.formula }} .rb):latest
       #          brew tap celsiusnarhwal/htt
 #          for formula in ${{ needs.check-formulae.outputs.formulae }}; do
 #            formula_name=$(basename $formula .rb)
