@@ -52,7 +52,6 @@ jobs:
     steps:
       - name: Build Bottles
         run: |
-            mkdir bottles && cd bottles
             brew tap celsiusnarhwal/htt
             formula_name=emdy
             brew install --build-bottle $formula_name
@@ -61,15 +60,21 @@ jobs:
             json_file=$(find . -name "$formula_name*.json")
             brew bottle --merge --write $json_file
 
-      #          brew tap celsiusnarhwal/htt
-#          for formula in ${{ needs.check-formulae.outputs.formulae }}; do
-#            formula_name=$(basename $formula .rb)
-#            brew install --build-bottle $formula_name
-#            brew bottle $formula_name --json --root-url ${{ env.ROOT_URL }}
-#
-#            json_file=$(find . -name "$formula_name*.json")
-#            brew bottle --merge --write $json_file
-#          done
+      - name: Upload Bottles
+        uses: actions/upload-artifact@v3
+        with:
+          name: bottles
+          path: "*.tar.gz"
+
+  push-bottles:
+    name: Push Bottles
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Bottles
+        uses: actions/download-artifact@v3
+        with:
+          name: bottles
+          path: .
 
       - name: Authenticate to GHCR
         uses: docker/login-action@v2
@@ -85,3 +90,13 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: ghcr.io/celsiusnarhwal/htt/${{ matrix.formula }}
+      #          brew tap celsiusnarhwal/htt
+#          for formula in ${{ needs.check-formulae.outputs.formulae }}; do
+#            formula_name=$(basename $formula .rb)
+#            brew install --build-bottle $formula_name
+#            brew bottle $formula_name --json --root-url ${{ env.ROOT_URL }}
+#
+#            json_file=$(find . -name "$formula_name*.json")
+#            brew bottle --merge --write $json_file
+#          done
+
