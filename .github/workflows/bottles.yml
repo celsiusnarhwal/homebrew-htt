@@ -47,57 +47,41 @@ jobs:
     strategy:
       matrix:
         os: [macos-11, macos-12, macos-latest]
+        formulae: [emdy.rb]
     runs-on: ${{ matrix.os }}
 
     steps:
-      - name: Build Bottles
+      - name: Set Up Docker
+        uses: docker-practice/actions-setup-docker@master
+
+      - name: Authenticate to GHCR
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and Push Bottles
         run: |
-            brew tap celsiusnarhwal/htt
-            formula_name=emdy
+          brew tap celsiusnarhwal/htt
+          
+          for formula in ${{ matrix.formulae }}; do
+            formula_name=$(basename $formula .rb)
             brew install --build-bottle $formula_name
             brew bottle $formula_name --json --root-url ghcr.io/celsiusnarhwal/htt
 
             json_file=$(find . -name "$formula_name*.json")
             brew bottle --merge --write $json_file
+            
+            bottle=$(find . -name "$formula_name*.bottle.*.tar.gz")
+            version=$(echo "$bottle" | grep -oE "[0-9]+\.[0-9]+\.[0-9]+")
+            sha256=$(docker import $bottle | sed -E "s/.*sha256:(.*)/\1/")
+            docker tag $sha256 ghcr.io/celsiusnarhwal/htt/$formula_name:$version
+            docker push ghcr.io/celsiusnarhwal/htt/$formula_name:$version@sha256:$sha256
+          done
 
       - name: Upload Bottles
         uses: actions/upload-artifact@v3
         with:
           name: bottles
           path: "*.tar.gz"
-
-  push-bottles:
-    name: Push Bottles
-    needs: build-bottles
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download Bottles
-        uses: actions/download-artifact@v3
-        with:
-          name: bottles
-          path: .
-
-      - name: Authenticate to GHCR
-        uses: docker/login-action@v2
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Push Bottles
-        uses: docker/build-push-action@v3
-        with:
-          context: .
-          file: ./Dockerfile
-          push: true
-          tags: ghcr.io/celsiusnarhwal/htt/$(basename ${{ needs.build-bottles.needs.check-formula.outputs.formula }} .rb):latest
-      #          brew tap celsiusnarhwal/htt
-#          for formula in ${{ needs.check-formulae.outputs.formulae }}; do
-#            formula_name=$(basename $formula .rb)
-#            brew install --build-bottle $formula_name
-#            brew bottle $formula_name --json --root-url ${{ env.ROOT_URL }}
-#
-#            json_file=$(find . -name "$formula_name*.json")
-#            brew bottle --merge --write $json_file
-#          done
-
