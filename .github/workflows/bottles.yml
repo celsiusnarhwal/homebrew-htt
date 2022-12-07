@@ -64,9 +64,9 @@ jobs:
       - name: Build and Push Bottles
         run: |
           brew tap celsiusnarhwal/htt
-          chmod +x ./bottle.sh
+          chmod +x bottle.sh
           for formula in ${{ matrix.formulae }}; do
-              ./bottle.sh $formula
+              bottle.sh $formula
           done
 
       - name: Upload Bottles
