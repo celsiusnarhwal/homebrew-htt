@@ -77,12 +77,6 @@ jobs:
             bottle=$(find . -name "$formula_name*.tar.gz")
             version=$(echo "$bottle" | grep -oE "[0-9]+\.[0-9]+\.[0-9]+")
             sha256=$(docker import "$bottle" | sed -E "s/.*sha256:(.*)/\1/")
-            docker tag "$sha256" "$root_url/$formula_name:$version@sha256:$sha256"
+            docker tag "$sha256" "$root_url/$formula_name:$version"
             docker push "$sha256"
           done
-
-      - name: Upload Bottles
-        uses: actions/upload-artifact@v3
-        with:
-          name: bottles
-          path: "*.tar.gz"
