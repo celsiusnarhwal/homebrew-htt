@@ -74,10 +74,15 @@ jobs:
             brew bottle --merge --write $json_file
             
             bottle=$(find . -name "$formula_name*.bottle.*.tar.gz")
+            echo "Bottle: $bottle"
             version=$(echo "$bottle" | grep -oE "[0-9]+\.[0-9]+\.[0-9]+")
+            echo "Version: $version"
             sha256=$(docker import $bottle | sed -E "s/.*sha256:(.*)/\1/")
+            echo "SHA256: $sha256"
             docker tag $sha256 ghcr.io/celsiusnarhwal/htt/$formula_name:$version
+            echo "Tagged: ghcr.io/celsiusnarhwal/htt/$formula_name:$version"
             docker push ghcr.io/celsiusnarhwal/htt/$formula_name:$version@sha256:$sha256
+            echo "Pushed: ghcr.io/celsiusnarhwal/htt/$formula_name:$version@sha256:$sha256"
           done
 
       - name: Upload Bottles
