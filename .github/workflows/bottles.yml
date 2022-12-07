@@ -66,7 +66,7 @@ jobs:
           brew tap celsiusnarhwal/htt
           for formula in ${{ matrix.formulae }}; do
             formula_name="$(basename "$formula" .rb)"
-            root_url="https://ghcr.io/v2/celsiusnarhwal/htt"
+            root_url="ghcr.io/v2/celsiusnarhwal/htt"
           
             brew install --build-bottle "$(basename "$formula" .rb)"
             brew bottle --json "$(basename "$formula" .rb)"
