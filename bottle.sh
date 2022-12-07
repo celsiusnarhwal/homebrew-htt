@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
 formula=$1
+formula_name="$(basename "$formula" .rb)"
 root_url="https://ghcr.io/v2/celsiusnarhwal/htt"
 
 # Tap HTT
 brew tap celsiusnarhwal/htt
 
-formula_name="$(basename "$formula" .rb)"
 # Bottle formula
 brew install --build-bottle "$(basename "$formula" .rb)"
 brew bottle --json "$(basename "$formula" .rb)"

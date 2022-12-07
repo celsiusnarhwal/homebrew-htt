@@ -64,9 +64,18 @@ jobs:
       - name: Build and Push Bottles
         run: |
           brew tap celsiusnarhwal/htt
-          chmod +x bottle.sh
           for formula in ${{ matrix.formulae }}; do
-              bottle.sh $formula
+            brew install --build-bottle "$(basename "$formula" .rb)"
+            brew bottle --json "$(basename "$formula" .rb)"
+            
+            json_file=$(find . -name "*.json")
+            brew bottle --merge --write "$json_file" --root-url="$root_url"
+            
+            bottle=$(find . -name "$formula_name*.tar.gz")
+            version=$(echo "$bottle" | sed -E "s/.*$formula_name-([0-9.]+)\.tar\.gz/\1/")
+            sha256=$(docker import "$bottle" | sed -E "s/.*sha256:(.*)/\1/")
+            docker tag "$sha256" "$root_url/$formula_name:$version@sha256:$sha256"
+            docker push "$sha256"
           done
 
       - name: Upload Bottles
