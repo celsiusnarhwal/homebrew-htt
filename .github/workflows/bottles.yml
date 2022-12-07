@@ -75,7 +75,7 @@ jobs:
             brew bottle --merge --write "$json_file" --root-url="$root_url"
             
             bottle=$(find . -name "$formula_name*.tar.gz")
-            version=$(echo "$bottle" | sed -E "s/.*$formula_name-([0-9.]+)\.tar\.gz/\1/")
+            version=$(echo "$bottle" | grep -oE "[0-9]+\.[0-9]+\.[0-9]+")
             sha256=$(docker import "$bottle" | sed -E "s/.*sha256:(.*)/\1/")
             docker tag "$sha256" "$root_url/$formula_name:$version@sha256:$sha256"
             docker push "$sha256"
