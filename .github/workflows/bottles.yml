@@ -60,7 +60,7 @@ jobs:
           git config --global user.name "github-actions[bot]"
 
       - name: Bottle Formula
-        run: chmod +x ./bottle.sh && ./bottle.sh ${{ matrix.formulae }}
+        run: chmod +x ./bottle.sh && ./bottle.sh ${{ matrix.formula }}
         env:
           HOMEBREW_GITHUB_PACKAGES_USER: ${{ github.repository_owner }}
           HOMEBREW_GITHUB_PACKAGES_TOKEN: ${{ secrets.GITHUB_TOKEN }}
