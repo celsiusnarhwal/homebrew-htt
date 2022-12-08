@@ -47,42 +47,20 @@ jobs:
     strategy:
       matrix:
         os: [macos-11, macos-12, macos-latest]
-        formulae: [emdy.rb]
+        formula: [emdy.rb]
     runs-on: ${{ matrix.os }}
 
     steps:
-      - name: Set Up Docker
-        uses: docker-practice/actions-setup-docker@master
+      - name: Checkout Repository
+        uses: actions/checkout@v3
 
-      - name: Authenticate to GHCR
-        uses: docker/login-action@v2
-        with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build and Push Bottles
+      - name: Set Commit Author to GitHub Actions
         run: |
-          brew tap celsiusnarhwal/htt
-          for formula in ${{ matrix.formulae }}; do
-            formula_name="$(basename "$formula" .rb)"
-            root_url="https://ghcr.io/v2/celsiusnarhwal/htt"
-          
-            brew install --build-bottle "$(basename "$formula" .rb)"
-            brew bottle --json "$(basename "$formula" .rb)"
-            
-            json_file=$(find . -name "*.json")
-            brew bottle --merge --write "$json_file" --root-url="$root_url"
-            
-            bottle=$(find . -name "$formula_name*.tar.gz")
-            version=$(echo "$bottle" | grep -oE "[0-9]+\.[0-9]+\.[0-9]+")
-            sha256=$(docker import "$bottle" | sed -E "s/.*sha256:(.*)/\1/")
-            docker tag "$sha256" "$root_url/$formula_name:$version@sha256:$sha256"
-            docker push "$sha256"
-          done
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
 
-      - name: Upload Bottles
-        uses: actions/upload-artifact@v3
-        with:
-          name: bottles
-          path: "*.tar.gz"
+      - name: Bottle Formula
+        run: chmod +x ./bottle.sh && ./bottle.sh ${{ matrix.formulae }}
+        env:
+          HOMEBREW_GITHUB_PACKAGES_USER: ${{ github.repository_owner }}
+          HOMEBREW_GITHUB_PACKAGES_TOKEN: ${{ secrets.GITHUB_TOKEN }}
