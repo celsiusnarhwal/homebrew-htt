@@ -38,16 +38,13 @@ jobs:
             exit 1
           fi
 
-    outputs:
-      formulae: ${{ steps.updated-formulae.outputs.all_changed_files }}
-
   build-bottles:
     name: Bottle Formulae
     needs: check-formulae
     strategy:
       matrix:
         os: [macos-11, macos-12, macos-latest]
-        formula: ${{ needs.check-formulae.outputs.formulae }}
+        formula: ${{ needs.check-formulae.steps.updated-formula.outputs.all_changed_files }}
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout Repository
