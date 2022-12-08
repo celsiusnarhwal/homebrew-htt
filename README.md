@@ -6,8 +6,7 @@ The Houkago Tea Tap is the repository for [Homebrew](https://brew.sh) distributi
 brew tap celsiusnarhwal/htt
 ```
 
-Formulae can be found inside the [Formula](/Formula) folder. For information on specific formulae in this tap,
-refer to the comment at the top of the relevant formula.
+For a list of the Tap's offerings, see [Tap Contents](contents.md).
 
 ## License
 
