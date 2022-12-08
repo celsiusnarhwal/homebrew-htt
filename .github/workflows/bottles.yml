@@ -24,18 +24,18 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Get Updated Formula
+      - name: Get Updated Formulae
         id: updated-formula
         uses: tj-actions/changed-files@v34
         with:
           files: |
             Formula/*.rb
 
-      - name: Was a Formula Updated?
+      - name: Were Formulae Updated?
         run: |
           if [ "${{ steps.updated-formulae.outputs.any_changed }}" == "false" ]; then
             echo "No formulae were updated, skipping bottle build."
-            exit 0
+            exit 1
           fi
 
     outputs:
@@ -47,7 +47,7 @@ jobs:
     strategy:
       matrix:
         os: [macos-11, macos-12, macos-latest]
-        formula: [emdy.rb]
+        formula: ${{ fromJson(needs.check-formula.outputs.formula) }}
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout Repository
