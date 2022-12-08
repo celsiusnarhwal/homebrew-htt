@@ -69,7 +69,7 @@ jobs:
           brew pr-upload --root-url="https://ghcr.io/v2/celsiusnarhwal/htt"
           
           cd $(brew --prefix)/Homebrew/Library/Taps/celsiusnarhwal/homebrew-htt
-          git pull --merge
+          git pull --rebase
           git push
         env:
           GITHUB_TOKEN: ${{ github.token }}
