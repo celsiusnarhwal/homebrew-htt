@@ -13,6 +13,6 @@ brew bottle --json "$(basename "$formula" .rb)"
 brew pr-upload --root-url="https://ghcr.io/v2/celsiusnarhwal/htt"
 
 # Push formula changes
-cd "$(brew --prefix)"/Library/Taps/celsiusnarhwal/homebrew-htt || exit
+cd "$(brew --prefix)"/Homebrew/Library/Taps/celsiusnarhwal/homebrew-htt || exit
 git pull --merge
 git push
