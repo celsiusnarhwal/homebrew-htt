@@ -5,7 +5,7 @@ This document maintains an up-to-date list of all formulae and external commands
 ## Formulae
 
 - [Emdy](https://github.com/celsiusnarhwal/emdy)
-- [ignorer](https://github.com/celsiusnarhwwal/ignorer)
+- [ignorer](https://github.com/celsiusnarhwal/ignorer)
 - [Schemarin](https://github.com/celsiusnarhwal/schemarin)
 
 ## External Commands
