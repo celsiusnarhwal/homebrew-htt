@@ -51,15 +51,13 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
-
       - name: Set Commit Author to GitHub Actions
         run: |
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
 
       - name: Bottle Formula
+        uses: actions/checkout@v3
         run: chmod +x ./bottle.sh && ./bottle.sh ${{ matrix.formula }}
         env:
           HOMEBREW_GITHUB_PACKAGES_USER: ${{ github.repository_owner }}
