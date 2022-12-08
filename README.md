@@ -12,3 +12,5 @@ refer to the comment at the top of the relevant formula.
 ## License
 
 The contents of this repository are licensed under the [MIT License](LICENSE.md).
+
+GitHub Container Registry packages linked to this repository are licensed under the terms of their associated projects.
