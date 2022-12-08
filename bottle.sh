@@ -2,6 +2,11 @@
 
 formula=$1
 
+# Configure Git
+git config --global user.name "github-actions[bot]"
+git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+git config credential.https://github.com
+
 # Tap HTT
 brew tap celsiusnarhwal/htt
 

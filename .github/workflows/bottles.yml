@@ -49,16 +49,29 @@ jobs:
         os: [macos-11, macos-12, macos-latest]
         formula: [emdy.rb]
     runs-on: ${{ matrix.os }}
-
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
       - name: Set Commit Author to GitHub Actions
         run: |
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
 
       - name: Bottle Formula
-        uses: actions/checkout@v3
-        run: chmod +x ./bottle.sh && ./bottle.sh ${{ matrix.formula }}
+        run: |
+          formula=$(basename ${{ matrix.formula }} .rb)
+          
+          brew tap celsiusnarhwal/htt
+          brew install --build-bottle $formula
+          brew bottle --json $formula
+          
+          brew pr-upload --root-url="https://ghcr.io/v2/celsiusnarhwal/htt"
+          
+          cd $(brew --prefix)/Homebrew/Library/Taps/celsiusnarhwal/homebrew-htt
+          git pull --merge
+          git push
         env:
+          GITHUB_TOKEN: ${{ github.token }}
           HOMEBREW_GITHUB_PACKAGES_USER: ${{ github.repository_owner }}
-          HOMEBREW_GITHUB_PACKAGES_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          HOMEBREW_GITHUB_PACKAGES_TOKEN: ${{ github.token }}
