@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  check-formula:
+  check-formulae:
     runs-on: macos-latest
     name: Prepare for Bottling
     steps:
@@ -39,15 +39,15 @@ jobs:
           fi
 
     outputs:
-      formula: ${{ steps.updated-formulae.outputs.all_changed_files }}
+      formulae: ${{ steps.updated-formulae.outputs.all_changed_files }}
 
   build-bottles:
-    name: Build Bottles
-    needs: check-formula
+    name: Bottle Formulae
+    needs: check-formulae
     strategy:
       matrix:
         os: [macos-11, macos-12, macos-latest]
-        formula: ${{ fromJson(needs.check-formula.outputs.formula) }}
+        formula: ${{ needs.check-formulae.outputs.formulae }}
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout Repository
