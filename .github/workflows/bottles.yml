@@ -37,6 +37,10 @@ jobs:
             echo "No formulae were updated, skipping bottle build."
             exit 1
           fi
+          
+          if [ "${{ steps.updated-formulae.outputs.all_changed }}" == "true" ]; then
+            echo ${{ steps.updated-formulae.outputs.all_changed_files }}
+          fi
 
   build-bottles:
     name: Bottle Formulae
