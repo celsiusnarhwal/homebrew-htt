@@ -38,7 +38,7 @@ jobs:
             exit 1
           fi
     outputs:
-        formulae: ${{ steps.updated-formulae.outputs.all_changed }}
+        formulae: ${{ steps.updated-formulae.outputs.all_changed_files }}
 
   build-bottles:
     name: Bottle Formulae
