@@ -60,15 +60,15 @@ jobs:
       - name: Bottle Formula
         run: |
           for formula in ${{ needs.check-formulae.outputs.formulae }}; do
-            formula=$(basename ${{ matrix.formula }} .rb)
+            formula="$(basename ${{ matrix.formula }} .rb)"
             
             brew tap celsiusnarhwal/htt
-            brew install --build-bottle $formula
-            brew bottle --json $formula
+            brew install --build-bottle "$formula"
+            brew bottle --json "$formula"
             
             brew pr-upload --root-url="https://ghcr.io/v2/celsiusnarhwal/htt"
             
-            cd $(brew --prefix)/Homebrew/Library/Taps/celsiusnarhwal/homebrew-htt
+            brew cd celsiusnarhwal/htt
             git pull --rebase
             git push
           done
