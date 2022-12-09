@@ -38,8 +38,13 @@ jobs:
             echo "No formulae were updated, skipping bottle build."
             exit 1
           fi
+
+      - name: Create Formulae List
+        id: formula-list
+        run: echo ${{ steps.updated-formulae.outputs.all_changed_files }} | sed "s/ /, /g"
+
     outputs:
-        formulae: ${{ steps.updated-formulae.outputs.all_changed_files }}
+        formulae: ${{ steps.formula-list.outputs.stdout }}
 
   build-bottles:
     name: Bottle Formulae
