@@ -59,8 +59,8 @@ jobs:
 
       - name: Bottle Formula
         run: |
-          for formula in ${{ needs.check-formulae.outputs.formulae }}; do
-            formula="$(basename ${{ matrix.formula }} .rb)"
+          for f in ${{ needs.check-formulae.outputs.formulae }}; do
+            formula="$(basename ${{ f }} .rb)"
             
             brew tap celsiusnarhwal/htt
             brew install --build-bottle "$formula"
