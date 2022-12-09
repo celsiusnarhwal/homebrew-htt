@@ -33,7 +33,7 @@ jobs:
 
       - name: Were Formulae Updated?
         run: |
-          echo ${{ steps.updated-formulae.outputs.all_changed_files }} }}  
+          echo ${{ steps.updated-formulae.outputs.all_changed_files }}  
           if [ ${{ steps.updated-formulae.outputs.any_changed }} == "false" ]; then
             echo "No formulae were updated, skipping bottle build."
             exit 1
@@ -47,7 +47,7 @@ jobs:
     strategy:
       matrix:
         os: [macos-11, macos-12, macos-latest]
-        formula: ${{ fromJson(needs.check-formulae.outputs.all_changed_files) }}
+        formula: ${{ fromJson(needs.check-formulae.outputs.formulae) }}
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout Repository
