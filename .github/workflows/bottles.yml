@@ -38,13 +38,8 @@ jobs:
             echo "No formulae were updated, skipping bottle build."
             exit 1
           fi
-
-      - name: Create Formulae List
-        id: formula-list
-        run: echo ${{ steps.updated-formulae.outputs.all_changed_files }} | sed "s/ /, /g"
-
     outputs:
-        formulae: ${{ steps.formula-list.outputs.stdout }}
+      formulae: ${{ steps.updated-formulae.outputs.all_changed_files }}
 
   build-bottles:
     name: Bottle Formulae
@@ -52,7 +47,6 @@ jobs:
     strategy:
       matrix:
         os: [macos-11, macos-12, macos-latest]
-        formula: [${{ needs.check-formulae.outputs.formulae }}]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout Repository
@@ -65,17 +59,19 @@ jobs:
 
       - name: Bottle Formula
         run: |
-          formula=$(basename ${{ matrix.formula }} .rb)
-          
-          brew tap celsiusnarhwal/htt
-          brew install --build-bottle $formula
-          brew bottle --json $formula
-          
-          brew pr-upload --root-url="https://ghcr.io/v2/celsiusnarhwal/htt"
-          
-          cd $(brew --prefix)/Homebrew/Library/Taps/celsiusnarhwal/homebrew-htt
-          git pull --rebase
-          git push
+          for formula in ${{ needs.check-formulae.outputs.formulae }}; do
+            formula=$(basename ${{ matrix.formula }} .rb)
+            
+            brew tap celsiusnarhwal/htt
+            brew install --build-bottle $formula
+            brew bottle --json $formula
+            
+            brew pr-upload --root-url="https://ghcr.io/v2/celsiusnarhwal/htt"
+            
+            cd $(brew --prefix)/Homebrew/Library/Taps/celsiusnarhwal/homebrew-htt
+            git pull --rebase
+            git push
+          done
         env:
           GITHUB_TOKEN: ${{ github.token }}
           HOMEBREW_GITHUB_PACKAGES_USER: ${{ github.repository_owner }}
