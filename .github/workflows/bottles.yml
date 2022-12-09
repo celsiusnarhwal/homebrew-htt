@@ -25,7 +25,7 @@ jobs:
           fetch-depth: 0
 
       - name: Get Updated Formulae
-        id: updated-formula
+        id: updated-formulae
         uses: tj-actions/changed-files@v34
         with:
           files: |
@@ -36,11 +36,8 @@ jobs:
           if [ "${{ steps.updated-formulae.outputs.any_changed }}" == "false" ]; then
             echo "No formulae were updated, skipping bottle build."
             exit 1
-          fi
-          
-          if [ "${{ steps.updated-formulae.outputs.all_changed }}" == "true" ]; then
-            echo ${{ steps.updated-formulae.outputs.all_changed_files }}
-          fi
+    outputs:
+        formulae: ${{ steps.updated-formulae.outputs.all_changed }}
 
   build-bottles:
     name: Bottle Formulae
@@ -48,7 +45,7 @@ jobs:
     strategy:
       matrix:
         os: [macos-11, macos-12, macos-latest]
-        formula: ${{ needs.check-formulae.steps.updated-formula.outputs.all_changed_files }}
+        formula: ${{ fromJson(needs.check-formulae.outputs.all_changed_files) }}
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout Repository
