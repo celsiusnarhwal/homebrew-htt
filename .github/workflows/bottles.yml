@@ -47,7 +47,7 @@ jobs:
     strategy:
       matrix:
         os: [macos-11, macos-12, macos-latest]
-        formula: ${{ fromJson(needs.check-formulae.outputs.formulae) }}
+        formula: ${{ needs.check-formulae.outputs.formulae }}
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout Repository
