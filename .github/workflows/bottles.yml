@@ -33,7 +33,8 @@ jobs:
 
       - name: Were Formulae Updated?
         run: |
-          if [ "${{ steps.updated-formulae.outputs.any_changed }}" == "false" ]; then
+          echo ${{ steps.updated-formulae.outputs.all_changed_files }} }}  
+          if [ ${{ steps.updated-formulae.outputs.any_changed }} == "false" ]; then
             echo "No formulae were updated, skipping bottle build."
             exit 1
           fi
