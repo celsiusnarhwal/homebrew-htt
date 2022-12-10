@@ -68,7 +68,7 @@ jobs:
 
       - name: Bottle Formula
         run: |
-          formula="$(basename "${{ formula }}" .rb)"
+          formula="$(basename "${{ matrix.formula }}" .rb)"
           
           brew tap celsiusnarhwal/htt
           brew install --build-bottle "$formula"
