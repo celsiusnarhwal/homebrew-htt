@@ -11,3 +11,4 @@ This document maintains an up-to-date list of all formulae and external commands
 ## External Commands
 
 - [brew-cd](https://github.com/celsiusnarhwal/brew-cd)
+- [brew-td](https://github.com/celsiusnarhwal/brew-td)
