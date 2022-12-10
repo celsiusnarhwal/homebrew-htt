@@ -61,6 +61,6 @@ class Emdy < Formula
   end
 
   test do
-    false
+    true
   end
 end

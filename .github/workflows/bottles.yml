@@ -1,15 +1,15 @@
 name: Bottles
 
 on:
-#  push:
-#    branches:
-#      - main
+  push:
+    branches:
+      - main
 
   workflow_dispatch:
 
 jobs:
   check-formulae:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     name: Prepare for Bottling
     steps:
       - name: Check Commit Author
@@ -37,33 +37,16 @@ jobs:
             echo "No formulae were updated, skipping bottle build."
             exit 1
           fi
-
-      - name: Set Formulae Matrix
-        id: set-matrix
-        run: | 
-          echo "matrix={
-            \"os\": [\"macos-11\", \"macos-12\"],
-            \"formulae\": echo [${{ steps.updated-formula.outputs.all_changed_files }} | sed \"s/ /, /g\"]
-          }"
     outputs:
-        matrix: ${{ steps.set-matrix.outputs.matrix }}
+        formulae: ${{ steps.updated-formulae.outputs.all_changed_files }}
 
   build-bottles:
     name: Bottle Formulae
     needs: check-formulae
-    strategy:
-      matrix:
-        ${{ fromJson(needs.check-formulae.outputs.matrix) }}
-    runs-on: ${{ matrix.os }}
+    runs-on: macos-12
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
-
-      - name: Set Up Python
-        uses: actions/setup-python@v2
-
-      - name: Set Up docker
-        uses: docker-practice/actions-setup-docker@master
 
       - name: Set Commit Author to GitHub Actions
         run: |
@@ -72,16 +55,20 @@ jobs:
 
       - name: Bottle Formula
         run: |
-          formula="$(basename "${{ matrix.formula }}" .rb)"
-          
           brew tap celsiusnarhwal/htt
-          brew install --build-bottle "$formula"
-          brew bottle --json "$formula"
           
-          python bottlejson.py
-          rm *.tar.gz *.json
+          for f in ${{ needs.check-formulae.outputs.formulae }}; do
+            formula=$(basename ${{ f }} .rb)
           
-          brew cd celsiusnarhwal/htt
-          echo "$PWD"
-          git pull --rebase
-          git push
+            brew install --build-bottle $formula
+            brew bottle --write --json $formula
+            brew pr-upload --root-url="https://ghcr.io/v2/celsiusnarhwal/htt"
+            
+            brew cd celsiusnarhwal/htt
+            git pull --rebase
+            git push
+          done
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          HOMEBREW_GITHUB_PACKAGES_USER: ${{ github.repository_owner }}
+          HOMEBREW_GITHUB_PACKAGES_TOKEN: ${{ github.token }}
