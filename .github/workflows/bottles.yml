@@ -58,7 +58,7 @@ jobs:
           brew tap celsiusnarhwal/htt
           
           for f in ${{ needs.check-formulae.outputs.formulae }}; do
-            formula=$(basename ${{ f }} .rb)
+            formula=$(basename $f .rb)
           
             brew install --build-bottle $formula
             brew bottle --write --json $formula
