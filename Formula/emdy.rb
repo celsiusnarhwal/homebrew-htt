@@ -10,8 +10,8 @@ class Emdy < Formula
 
   bottle do
     root_url "https://ghcr.io/v2/celsiusnarhwal/htt"
-    rebuild 2
-    sha256 cellar: :any_skip_relocation, monterey: "78bf5dacf28c4e254f6abde3a8c5cd3262af1eb817fdccc2fa215f33b6eec434"
+    rebuild 3
+    sha256 cellar: :any_skip_relocation, monterey: "84c9792ce48fb1614113981eb8f9b35070964d9ed10005b66e4e11d1ecfbf1d6"
   end
 
   depends_on "python3"
