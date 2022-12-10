@@ -9,8 +9,8 @@ class Emdy < Formula
   sha256 "8db3e5d41730c3db221929b11d24a5ef8eab8585a168d540b959ca7afcfbf269"
 
   bottle do
-    rebuild 1
-    sha256 cellar: :any_skip_relocation, monterey: "9f1466ac20a8dc848e7239ed47ff2b389fa2da743e0ee0fa90914fafee4ac150"
+    rebuild 2
+    sha256 cellar: :any_skip_relocation, monterey: "efd713d2af4425e4c7d9700078c5591a121097e7612675a0b073cbe15c7466db"
   end
 
   depends_on "python3"
