@@ -8,6 +8,11 @@ class Ignorer < Formula
   url "https://files.pythonhosted.org/packages/e9/c8/a67a4af0681829d4c56ee17d3f1ea8d28691106a32b0b78ac77a1746c4ed/ignorer-1.0.3.tar.gz"
   sha256 "421170ca4c225e994bbbe7e24368372118d18d59f9c80100cdecfc55aec8b759"
 
+  bottle do
+    rebuild 1
+    sha256 cellar: :any_skip_relocation, monterey: "65762d95c93de4cf97c843fb8c93824fbe2ab22897806c1e768d703ae087b0fc"
+  end
+
   depends_on "python3"
 
   resource "click" do
