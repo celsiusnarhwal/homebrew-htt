@@ -1,6 +1,7 @@
 # Homebrew formula for ignorer. https://github.com/celsiusnarhwal/ignorer
 
 
+
 class Ignorer < Formula
   include Language::Python::Virtualenv
 
