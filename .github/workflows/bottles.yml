@@ -41,7 +41,7 @@ jobs:
       - name: Echo Formulae Matrix
         id: formulae-matrix
         run: | 
-          echo "formulae={\"include\": [${{ steps.updated-formulae.outputs.all_changed }}]}" >> $GITHUB_OUTPUT
+          echo "formulae={\"include\": [${{ steps.updated-formulae.outputs.all_changed_files }}]}" >> $GITHUB_OUTPUT
 
   build-bottles:
     name: Bottle Formulae
