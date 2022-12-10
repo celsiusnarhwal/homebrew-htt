@@ -69,7 +69,7 @@ jobs:
             rm *.tar.gz *.json
             
             brew cd celsiusnarhwal/htt
-            cp -rf $formula.rb /htt/Formula
+            cp -rf Formula/$formula.rb /htt/Formula
             cd /htt
             git pull --rebase
             git push
