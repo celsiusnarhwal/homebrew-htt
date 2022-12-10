@@ -47,6 +47,8 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
+        with:
+          path: htt
 
       - name: Set Commit Author to GitHub Actions
         run: |
@@ -67,6 +69,8 @@ jobs:
             rm *.tar.gz *.json
             
             brew cd celsiusnarhwal/htt
+            cp -rf $formula.rb /htt/Formula
+            cd /htt
             git pull --rebase
             git push
           done
