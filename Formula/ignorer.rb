@@ -10,8 +10,8 @@ class Ignorer < Formula
 
   bottle do
     root_url "https://ghcr.io/v2/celsiusnarhwal/htt"
-    rebuild 1
-    sha256 cellar: :any_skip_relocation, monterey: "0d34788a335c9ece007ba0f92e4f93320d8ac110af3e32c9e30e21d322db5b5d"
+    rebuild 2
+    sha256 cellar: :any_skip_relocation, monterey: "f7a9523a6489fd38d76209b852647ba31fa79dc955cf3a34e9b3a91a9cf8aabe"
   end
 
   depends_on "python3"
