@@ -31,7 +31,7 @@ def main(tap_name: str):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Change the current working directory to a Homebrew tap.")
-    parser.add_argument("tap", help="The tap to change the current working directory to.")
+    parser = argparse.ArgumentParser(description="Print the absolute path of a Homebrew tap.")
+    parser.add_argument("tap", help="The tap to print the absolute path of.")
     args = parser.parse_args()
     main(args.tap)
