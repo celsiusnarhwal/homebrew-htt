@@ -42,9 +42,9 @@ jobs:
         id: set-matrix
         run: | 
           echo "matrix={
-            'os': ['macos-11', 'macos-12'],
-            'formulae': echo [${{ steps.updated-formula.outputs.all_changed_files }} | sed "s/ /, /g"]
-          }
+            \"os\": [\"macos-11\", \"macos-12\"],
+            \"formulae\": echo [${{ steps.updated-formula.outputs.all_changed_files }} | sed \"s/ /, /g\"]
+          }"
     outputs:
         matrix: ${{ steps.set-matrix.outputs.matrix }}
 
