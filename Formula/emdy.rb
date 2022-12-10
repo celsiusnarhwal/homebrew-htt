@@ -1,5 +1,6 @@
 # Homebrew formula for Emdy. https://github.com/celsiusnarhwal/emdy
 
+
 class Emdy < Formula
   include Language::Python::Virtualenv
 
@@ -7,11 +8,6 @@ class Emdy < Formula
   homepage "https://github.com/celsiusnarhwal/emdy"
   url "https://files.pythonhosted.org/packages/af/a3/98a6da1897029bb015dd1f6340aa38a90621453ae8c99200f00f0af2f4d1/emdy-1.0.0.tar.gz"
   sha256 "8db3e5d41730c3db221929b11d24a5ef8eab8585a168d540b959ca7afcfbf269"
-
-  bottle do
-    rebuild 4
-    sha256 cellar: :any_skip_relocation, monterey: "1d6350096d8630aa5ccf264b8574d9a9bde7c769422f8f9c16ed1ef61ff4c353"
-  end
 
   depends_on "python3"
 

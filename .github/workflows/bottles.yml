@@ -64,7 +64,7 @@ jobs:
             formula=$(basename $f .rb)
           
             brew install --build-bottle $formula
-            brew bottle --json $formula
+            brew bottle --json $formula --root-url="https://ghcr.io/v2/celsiusnarhwal/htt"
             brew bottle --write --merge --no-commit $formula*.json
             brew pr-upload --root-url="https://ghcr.io/v2/celsiusnarhwal/htt"
             rm *.tar.gz *.json
