@@ -8,13 +8,13 @@ from pathlib import Path
 
 
 def main(tap_name: str):
-    tap_owner, tap_name = tap_name.split("/")
+    tap_owner, tap_repo = tap_name.split("/")
     tap_dir = "Library/Taps"
     prefixes = [Path("/opt/homebrew"), Path("/usr/local/Homebrew"), Path("/home/linuxbrew/.linuxbrew")]
-    tap_names = [tap_name, tap_name.replace("/", "/homebrew-")]
+    tap_names = [tap_repo, f"homebrew-{tap_repo}"]
 
     for prefix, tap in itertools.product(prefixes, tap_names):
-        tap_path: Path = prefix / tap_dir / tap_owner / tap_name
+        tap_path: Path = prefix / tap_dir / tap_owner / tap
         if tap_path.exists():
             print(tap_path.resolve())
             exit()
