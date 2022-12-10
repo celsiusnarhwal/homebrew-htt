@@ -61,8 +61,10 @@ jobs:
             formula=$(basename $f .rb)
           
             brew install --build-bottle $formula
-            brew bottle --write --json $formula
+            brew bottle --json $formula
+            brew bottle --write --merge $formula*.json
             brew pr-upload --root-url="https://ghcr.io/v2/celsiusnarhwal/htt"
+            rm *.tar.gz *.json
             
             brew cd celsiusnarhwal/htt
             git pull --rebase
