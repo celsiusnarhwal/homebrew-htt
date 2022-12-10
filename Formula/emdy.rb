@@ -3,7 +3,7 @@
 class Emdy < Formula
   include Language::Python::Virtualenv
 
-  desc "Generate open source and Creative Commons licenses from your command line"
+  desc "Generate open source and Creative Commons licenses from your command-line"
   homepage "https://github.com/celsiusnarhwal/emdy"
   url "https://files.pythonhosted.org/packages/af/a3/98a6da1897029bb015dd1f6340aa38a90621453ae8c99200f00f0af2f4d1/emdy-1.0.0.tar.gz"
   sha256 "8db3e5d41730c3db221929b11d24a5ef8eab8585a168d540b959ca7afcfbf269"
