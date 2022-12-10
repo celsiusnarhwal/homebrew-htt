@@ -38,12 +38,12 @@ jobs:
             exit 1
           fi
 
-      - name: Echo Formulae Matrix
-        id: formulae-matrix
+      - name: Set Formulae Matrix
+        id: set-matrix
         run: | 
           echo "matrix={\"include\": [${{ steps.updated-formulae.outputs.all_changed_files }}]}" >> $GITHUB_OUTPUT
     outputs:
-        matrix: ${{ steps.formulae-matrix.outputs.matrix }}
+        formulae: ${{ steps.set-matrix.outputs.matrix }}
 
   build-bottles:
     name: Bottle Formulae
@@ -51,7 +51,7 @@ jobs:
     strategy:
       matrix:
         os: [macos-11, macos-12, macos-latest]
-        formula: ${{ fromJSON(needs.check-formulae.outputs.formulae-matrix) }}
+        formula: ${{ fromJSON(needs.check-formulae.outputs.formulae) }}
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout Repository
