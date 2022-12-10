@@ -70,6 +70,7 @@ jobs:
             
             cd htt
             cp -rf $(brew --prefix)/Homebrew/Library/Taps/celsiusnarhwal/homebrew-htt/Formula/$formula.rb Formula/
+            git commit -a -m "Update formula for $formula https://github.com/celsiusnarhwal/$formula"
             git pull --rebase
             git push
           done
