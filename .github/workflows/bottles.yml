@@ -33,13 +33,15 @@ jobs:
 
       - name: Were Formulae Updated?
         run: |
-          echo ${{ steps.updated-formulae.outputs.all_changed_files }}  
           if [ ${{ steps.updated-formulae.outputs.any_changed }} == "false" ]; then
             echo "No formulae were updated, skipping bottle build."
             exit 1
           fi
-    outputs:
-      formulae: ${{ steps.updated-formulae.outputs.all_changed_files }}
+
+      - name: Echo Formulae Matrix
+        id: formulae-matrix
+        run: | 
+          echo "formulae={\"include\": [${{ steps.updated-formulae.outputs.all_changed }}]}" >> $GITHUB_OUTPUT
 
   build-bottles:
     name: Bottle Formulae
@@ -47,10 +49,17 @@ jobs:
     strategy:
       matrix:
         os: [macos-11, macos-12, macos-latest]
+        formula: ${{ fromJSON(needs.check-formulae.outputs.formulae-matrix) }}
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
+
+      - name: Set Up Python
+        uses: actions/setup-python@v2
+
+      - name: Set Up docker
+        uses: docker-practice/actions-setup-docker@master
 
       - name: Set Commit Author to GitHub Actions
         run: |
@@ -59,22 +68,16 @@ jobs:
 
       - name: Bottle Formula
         run: |
-          for f in ${{ needs.check-formulae.outputs.formulae }}; do
-            formula="$(basename "$f" .rb)"
-            
-            brew tap celsiusnarhwal/htt
-            brew install --build-bottle "$formula"
-            brew bottle --json "$formula"
-            
-            brew pr-upload --root-url="https://ghcr.io/v2/celsiusnarhwal/htt"
-            rm *.tar.gz *.json
-            
-            brew cd celsiusnarhwal/htt
-            echo "$PWD"
-            git pull --rebase
-            git push
-          done
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-          HOMEBREW_GITHUB_PACKAGES_USER: ${{ github.repository_owner }}
-          HOMEBREW_GITHUB_PACKAGES_TOKEN: ${{ github.token }}
+          formula="$(basename "${{ formula }}" .rb)"
+          
+          brew tap celsiusnarhwal/htt
+          brew install --build-bottle "$formula"
+          brew bottle --json "$formula"
+          
+          python bottlejson.py
+          rm *.tar.gz *.json
+          
+          brew cd celsiusnarhwal/htt
+          echo "$PWD"
+          git pull --rebase
+          git push
