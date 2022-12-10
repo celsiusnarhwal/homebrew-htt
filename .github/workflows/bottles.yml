@@ -68,9 +68,8 @@ jobs:
             brew pr-upload --root-url="https://ghcr.io/v2/celsiusnarhwal/htt"
             rm *.tar.gz *.json
             
-            brew cd celsiusnarhwal/htt
-            cp -rf Formula/$formula.rb /htt/Formula
             cd /htt
+            cp -rf $(brew --prefix)/Homebrew/Library/Taps/celsiusnarhwal/homebrew-htt/Formula/$formula.rb Formula/
             git pull --rebase
             git push
           done
