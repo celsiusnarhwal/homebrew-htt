@@ -62,11 +62,12 @@ jobs:
           
             brew install --build-bottle $formula
             brew bottle --json $formula
-            brew bottle --write --merge $formula*.json
+            brew bottle --write --merge --no-commit $formula*.json
             brew pr-upload --root-url="https://ghcr.io/v2/celsiusnarhwal/htt"
             rm *.tar.gz *.json
             
             brew cd celsiusnarhwal/htt
+            git commit -a -m "Bottle $formula"
             git pull --rebase
             git push
           done
