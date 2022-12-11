@@ -52,14 +52,19 @@ jobs:
         uses: actions/checkout@v3
         with:
           path: htt
+
       - name: Set Up Homebrew
         if: !contains(matrix.os, 'macos')
         uses: Homebrew/actions/setup-homebrew@master
+
+      - name: Set Up Python
+        uses: actions/setup-python@v2
 
       - name: Set Commit Author to GitHub Actions
         run: |
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
+          
 
       - name: Bottle Formula
         run: |
@@ -72,7 +77,7 @@ jobs:
             brew bottle --json $formula --root-url="https://github.com/celsiusnarhwal/homebrew-htt/releases/download"
             brew bottle --write --merge --no-commit $formula*.json
             
-            formula_version=$(brew info --json=v2 $formula | jq -r ".formulae[0].versions.stable")
+            formula_version$(brew info --json=v2 $formula | jq -r '.formulae[0].versions.stable')
             gh release create "$formula $formula_version" $formula*.tar.gz --title="$formula $formula_version"
             rm *.tar.gz *.json
             
