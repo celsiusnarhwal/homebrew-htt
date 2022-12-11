@@ -53,6 +53,10 @@ jobs:
         with:
           path: htt
 
+      - name: Set Up Homebrew
+        if: !contains(matrix.os, 'macos')
+        uses: Homebrew/actions/setup-homebrew@master
+
       - name: Set Commit Author to GitHub Actions
         run: |
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
