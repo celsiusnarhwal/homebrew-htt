@@ -54,7 +54,6 @@ jobs:
           path: htt
 
       - name: Set Up Homebrew
-        if: !contains(matrix.os, 'macos')
         uses: Homebrew/actions/setup-homebrew@master
 
       - name: Set Up Python
