@@ -45,7 +45,7 @@ jobs:
     needs: check-formulae
     strategy:
       matrix:
-        os: [macos-11, macos-12, ubuntu-22.04]
+        os: [macos-11, macos-12]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout Repository
