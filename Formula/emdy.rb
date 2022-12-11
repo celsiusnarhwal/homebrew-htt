@@ -8,12 +8,6 @@ class Emdy < Formula
   url "https://files.pythonhosted.org/packages/af/a3/98a6da1897029bb015dd1f6340aa38a90621453ae8c99200f00f0af2f4d1/emdy-1.0.0.tar.gz"
   sha256 "8db3e5d41730c3db221929b11d24a5ef8eab8585a168d540b959ca7afcfbf269"
 
-  bottle do
-    root_url "https://ghcr.io/v2/celsiusnarhwal/htt"
-    rebuild 3
-    sha256 cellar: :any_skip_relocation, monterey: "84c9792ce48fb1614113981eb8f9b35070964d9ed10005b66e4e11d1ecfbf1d6"
-  end
-
   depends_on "python3"
 
   resource "click" do

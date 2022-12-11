@@ -50,6 +50,12 @@ jobs:
         with:
           path: htt
 
+      - name: Log in to GitHub CLI
+        run: gh auth login
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+
       - name: Set Commit Author to GitHub Actions
         run: |
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -58,22 +64,22 @@ jobs:
       - name: Bottle Formula
         run: |
           og_dir=$PWD
-          brew tap celsiusnarhwal/htt
-          
+        
           for f in ${{ needs.check-formulae.outputs.formulae }}; do
             formula=$(basename $f .rb)
           
-            brew install --build-bottle $formula
-            brew bottle --json $formula --root-url="https://ghcr.io/v2/celsiusnarhwal/htt"
+            brew install --build-bottle celsiusnarhwal/htt/$formula
+            brew bottle --json $formula --root-url="https://github.com/celsiusnarhwal/homebrew-htt/releases/download"
             brew bottle --write --merge --no-commit $formula*.json
-            brew pr-upload --root-url="https://ghcr.io/v2/celsiusnarhwal/htt"
+            
+            $formula_version=$(brew info --json=v2 $formula | jq -r '.formulae[0].versions.stable')
+            gh release create "$formula $formula_version" $formula*.tar.gz --title="$formula $formula_version"
             rm *.tar.gz *.json
             
             cd htt
             cp -rf $(brew --prefix)/Homebrew/Library/Taps/celsiusnarhwal/homebrew-htt/Formula/$formula.rb Formula/
             git commit -a -m "Update formula for $formula https://github.com/celsiusnarhwal/$formula"
-            git pull --rebase
-            git push
+            git pull --rebase && git push
             cd $og_dir
           done
         env:

@@ -8,12 +8,6 @@ class Schemarin < Formula
   url "https://files.pythonhosted.org/packages/20/ac/fec2641699c5b51f011c6776e7db6bf5de828bb551da4c7fadc7a5ee3a6c/schemarin-1.0.2.tar.gz"
   sha256 "c2e045894bad4406d935935aa883e156ce0613335383f9065672f43480ce1eef"
 
-  bottle do
-    root_url "https://ghcr.io/v2/celsiusnarhwal/htt"
-    rebuild 2
-    sha256 cellar: :any, monterey: "bcd93278107516e173d769ea0733f2212268e559733082256c3d00c175a28171"
-  end
-
   depends_on "python3"
   depends_on "libgit2"
 
