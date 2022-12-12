@@ -58,7 +58,7 @@ jobs:
         uses: Homebrew/actions/setup-homebrew@master
         
       - name: Set Up Python
-      - uses: actions/setup-python@v2  
+        uses: actions/setup-python@v2  
 
       - name: Set Commit Author to GitHub Actions
         run: |
