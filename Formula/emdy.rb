@@ -8,6 +8,12 @@ class Emdy < Formula
   url "https://files.pythonhosted.org/packages/af/a3/98a6da1897029bb015dd1f6340aa38a90621453ae8c99200f00f0af2f4d1/emdy-1.0.0.tar.gz"
   sha256 "8db3e5d41730c3db221929b11d24a5ef8eab8585a168d540b959ca7afcfbf269"
 
+  bottle do
+    root_url "https://github.com/celsiusnarhwal/homebrew-htt/releases/download"
+    rebuild 1
+    sha256 cellar: :any_skip_relocation, monterey: "5291a46fcbbe39d781601bbb5e0b4783cb6aeb0563a44397a4a07e46381db4fd"
+  end
+
   depends_on "python3"
 
   resource "click" do
