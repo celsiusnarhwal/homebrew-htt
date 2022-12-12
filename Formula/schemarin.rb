@@ -11,8 +11,8 @@ class Schemarin < Formula
 
   bottle do
     root_url "https://github.com/celsiusnarhwal/homebrew-htt/releases/download/schemarin-1.0.2"
-    rebuild 1
-    sha256 cellar: :any, big_sur: "1c94dcf3f4cb334d42084bde25431ed732e3aeb0baee320e65b8dfbfaa7adff2"
+    rebuild 2
+    sha256 cellar: :any, monterey: "3c15ab859ea2221ca7a231bd550bed7b63db71ea20377739729fed9a79eafd1c"
   end
 
   depends_on "python3"
