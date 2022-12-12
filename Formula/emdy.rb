@@ -11,8 +11,8 @@ class Emdy < Formula
 
   bottle do
     root_url "https://github.com/celsiusnarhwal/homebrew-htt/releases/download/emdy-1.0.0"
-    rebuild 1
-    sha256 cellar: :any_skip_relocation, big_sur: "8547483f23a1ceaa89098cc66c6563640a4e63cb0eba20348192f1ef70f90614"
+    rebuild 2
+    sha256 cellar: :any_skip_relocation, monterey: "696946c19b388da62d628ebff45a925f7937ea93dd140feec7564d74ae29b4ba"
   end
 
   depends_on "python3"
