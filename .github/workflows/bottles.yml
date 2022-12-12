@@ -75,11 +75,11 @@ jobs:
             brew bottle --write --merge --no-commit $formula*.json
             formula_version=$(brew info --json=v2 $formula | jq -r '.formulae[0].versions.stable')
           
+            bottle_file=$(realpath $(find . -name "$formula*.bottle.*tar.gz"))
+          
             cd htt
-            bottle_file=$(find . -name "$formula*.bottle.*tar.gz")
-            echo $bottle_file
-            gh release create "$formula-$formula_version" $bottle_file --title="$formula $formula_version"  
-            rm *.tar.gz *.json
+            gh release create "$formula-$formula_version" --title="$formula $formula_version" || true 
+            gh release upload "$formula-$formula_version" $bottle_file --clobber
             cp -rf $(brew --prefix)/Homebrew/Library/Taps/celsiusnarhwal/homebrew-htt/Formula/$formula.rb Formula/
             git commit -a -m "Update formula for $formula https://github.com/celsiusnarhwal/$formula"
             git pull --rebase && git push
