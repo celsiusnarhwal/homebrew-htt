@@ -76,7 +76,7 @@ jobs:
             formula_version=$(brew info --json=v2 $formula | jq -r '.formulae[0].versions.stable')
           
             cd htt
-            bottle_file=$(ls $formula*.bottle.*.tar.gz)
+            bottle_file=$(find . -name "$formula*.bottle.*tar.gz")
             echo $bottle_file
             gh release create "$formula $formula_version" $bottle_file --title="$formula $formula_version"  
             rm *.tar.gz *.json
