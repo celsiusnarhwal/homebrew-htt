@@ -56,6 +56,9 @@ jobs:
       - name: Set Up Homebrew
         if: ${{ !contains(matrix.os, 'macos') }}
         uses: Homebrew/actions/setup-homebrew@master
+        
+      - name: Set Up Python
+      - uses: actions/setup-python@v2  
 
       - name: Set Commit Author to GitHub Actions
         run: |
@@ -75,7 +78,7 @@ jobs:
             brew bottle --write --merge --no-commit $formula*.json
             formula_version=$(brew info --json=v2 $formula | jq -r '.formulae[0].versions.stable')
           
-            bottle_file=$(realpath $(find . -name "$formula*.bottle.*tar.gz"))
+            bottle_file=$(find . -name "$formula*.bottle.*.tar.gz" | python -c "import sys, pathlib; print(pathlib.Path(sys.stdin.read()).resolve()")
           
             cd htt
             gh release create "$formula-$formula_version" --title="$formula $formula_version" || true 
