@@ -78,7 +78,7 @@ jobs:
             brew bottle --write --merge --no-commit $formula*.json
             formula_version=$(brew info --json=v2 $formula | jq -r '.formulae[0].versions.stable')
           
-            bottle_file=$(find . -name "$formula*.bottle.*.tar.gz" | python -c "import sys, pathlib; print(pathlib.Path(sys.stdin.read()).resolve()")
+            bottle_file=$(find . -name "$formula*.bottle.*.tar.gz" | python -c "import sys, pathlib; print(pathlib.Path(sys.stdin.read()).resolve())")
           
             cd htt
             gh release create "$formula-$formula_version" --title="$formula $formula_version" || true 
