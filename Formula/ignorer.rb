@@ -9,6 +9,12 @@ class Ignorer < Formula
   url "https://files.pythonhosted.org/packages/e9/c8/a67a4af0681829d4c56ee17d3f1ea8d28691106a32b0b78ac77a1746c4ed/ignorer-1.0.3.tar.gz"
   sha256 "421170ca4c225e994bbbe7e24368372118d18d59f9c80100cdecfc55aec8b759"
 
+  bottle do
+    root_url "https://github.com/celsiusnarhwal/homebrew-htt/releases/download"
+    rebuild 1
+    sha256 cellar: :any_skip_relocation, monterey: "6a18e0905e9c708ca7b4fec7da248279f632b677fb1bf680e2d00324cf39b1c5"
+  end
+
   depends_on "python3"
 
   resource "click" do
