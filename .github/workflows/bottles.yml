@@ -29,10 +29,10 @@ jobs:
   build-bottles:
     name: Bottle Formulae
     if: ${{ needs.check-formulae.outputs.formulae }}
-    concurrency: bottles
     strategy:
       matrix:
         os: [ macos-11, macos-12 ]
+      max-parallel: 1
     runs-on: ${{ matrix.os }}
     steps:
       - name: Set Up Python
