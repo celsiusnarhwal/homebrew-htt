@@ -11,11 +11,11 @@ bottle_file=$(brew bottle --json "$formula" --root-url="https://github.com/celsi
 brew bottle --write --merge "$formula"*.json
 
 # Determine the files to be uploaded to GitHub.
-assets=$(python assets.py "$bottle_file" "$platform")
+assets=$(python3 "$(brew --repo celsiusnarhwal/htt)"/assets.py "$bottle_file" "$platform")
 
 # Upload the bottle files to GitHub.
 cd "$(brew --repo celsiusnarhwal/htt)"
-gh release create "$formula-$formula_version" --title "$formula $formula_version" --notes "$formula $formula_version bottles"  || true
+gh release create "$formula-$formula_version" --title "$formula $formula_version" --notes "$formula $formula_version bottles" || true
 for asset in $assets; do
   gh release upload "$formula-$formula_version" "$asset" --clobber
 done
