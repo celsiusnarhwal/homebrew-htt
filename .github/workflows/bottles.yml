@@ -78,7 +78,7 @@ jobs:
             cd htt
             bottle_file=$(find . -name "$formula*.bottle.*tar.gz")
             echo $bottle_file
-            gh release create "$formula $formula_version" $bottle_file --title="$formula $formula_version"  
+            gh release create "$formula-$formula_version" $bottle_file --title="$formula $formula_version"  
             rm *.tar.gz *.json
             cp -rf $(brew --prefix)/Homebrew/Library/Taps/celsiusnarhwal/homebrew-htt/Formula/$formula.rb Formula/
             git commit -a -m "Update formula for $formula https://github.com/celsiusnarhwal/$formula"
