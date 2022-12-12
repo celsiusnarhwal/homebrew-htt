@@ -11,8 +11,8 @@ class Ignorer < Formula
 
   bottle do
     root_url "https://github.com/celsiusnarhwal/homebrew-htt/releases/download/ignorer-1.0.3"
-    rebuild 1
-    sha256 cellar: :any_skip_relocation, big_sur: "bdec38e7d6c9c693003a739d87c42c3b796d086ba49c13eeb056e26b4f33caef"
+    rebuild 2
+    sha256 cellar: :any_skip_relocation, monterey: "3628d16b079045ffa834a527f636c3f7debb83c730b1fc3877ebb336e451815b"
   end
 
   depends_on "python3"
