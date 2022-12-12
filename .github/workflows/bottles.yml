@@ -28,7 +28,7 @@ jobs:
 
   build-bottles:
     name: Bottle Formulae
-    if: ${{ needs.check-formulae.outputs.formulae }}
+    if: ${{ needs.check-formulae.outputs.formulae }} != ''
     strategy:
       matrix:
         os: [ macos-11, macos-12 ]
