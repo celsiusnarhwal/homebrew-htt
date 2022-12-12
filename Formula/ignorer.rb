@@ -1,6 +1,5 @@
 # Homebrew formula for ignorer. https://github.com/celsiusnarhwal/ignorer
 
-
 class Ignorer < Formula
   include Language::Python::Virtualenv
 
@@ -9,19 +8,12 @@ class Ignorer < Formula
   url "https://files.pythonhosted.org/packages/e9/c8/a67a4af0681829d4c56ee17d3f1ea8d28691106a32b0b78ac77a1746c4ed/ignorer-1.0.3.tar.gz"
   sha256 "421170ca4c225e994bbbe7e24368372118d18d59f9c80100cdecfc55aec8b759"
 
-  bottle do
-    root_url "https://github.com/celsiusnarhwal/homebrew-htt/releases/download"
-    rebuild 1
-    sha256 cellar: :any_skip_relocation, monterey: "6a18e0905e9c708ca7b4fec7da248279f632b677fb1bf680e2d00324cf39b1c5"
-  end
-
   depends_on "python3"
 
   resource "click" do
     url "https://files.pythonhosted.org/packages/59/87/84326af34517fca8c58418d148f2403df25303e02736832403587318e9e8/click-8.1.3.tar.gz"
     sha256 "7682dc8afb30297001674575ea00d1814d808d6a36af415a82bd481d37ba7b8e"
   end
-
 
   resource "inflect" do
     url "https://files.pythonhosted.org/packages/dd/34/0faab1eb3b2f30f1ed074672f21d39fbfd9ee780e9f16e28ca8bfc5e646f/inflect-6.0.2.tar.gz"

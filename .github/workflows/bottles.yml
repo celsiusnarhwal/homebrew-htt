@@ -12,13 +12,6 @@ jobs:
     runs-on: ubuntu-latest
     name: Prepare for Bottling
     steps:
-      - name: Check Commit Author
-        run: |
-          if [ "${{ github.event.pusher.username }}" == "github-actions[bot]" ]; then
-            echo "This commit was made by a bot. Exiting..."
-            exit 1
-          fi
-
       - name: Checkout Repository
         uses: actions/checkout@v3
         with:
@@ -30,65 +23,43 @@ jobs:
         with:
           files: |
             Formula/*.rb
-
-      - name: Were Formulae Updated?
-        run: |
-          if [ ${{ steps.updated-formulae.outputs.any_changed }} == "false" ]; then
-            echo "No formulae were updated, skipping bottle build."
-            exit 1
-          fi
     outputs:
-        formulae: ${{ steps.updated-formulae.outputs.all_changed_files }}
+      formulae: ${{ steps.updated-formulae.outputs.all_changed_files }}
 
   build-bottles:
     name: Bottle Formulae
-    needs: check-formulae
+    if: ${{ needs.check-formulae.outputs.formulae }}
+    concurrency: bottles
     strategy:
       matrix:
-        os: [macos-11, macos-12]
+        os: [ macos-11, macos-12 ]
     runs-on: ${{ matrix.os }}
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
-        with:
-          path: htt
-
-      - name: Set Up Homebrew
-        if: ${{ !contains(matrix.os, 'macos') }}
-        uses: Homebrew/actions/setup-homebrew@master
-        
       - name: Set Up Python
-        uses: actions/setup-python@v2  
+        uses: actions/setup-python@v2
 
       - name: Set Commit Author to GitHub Actions
         run: |
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
-          
 
-      - name: Bottle Formula
+      - name: Tap HTT
         run: |
-          og_dir=$PWD
-        
-          for f in ${{ needs.check-formulae.outputs.formulae }}; do
-            formula=$(basename $f .rb)
-          
-            brew install --build-bottle celsiusnarhwal/htt/$formula
-            brew bottle --json $formula --root-url="https://github.com/celsiusnarhwal/homebrew-htt/releases/download"
-            brew bottle --write --merge --no-commit $formula*.json
-            formula_version=$(brew info --json=v2 $formula | jq -r '.formulae[0].versions.stable')
-          
-            bottle_file=$(find . -name "$formula*.bottle.*.tar.gz" | python -c "import sys, pathlib; print(pathlib.Path(sys.stdin.read()).resolve())")
-          
-            cd htt
-            gh release create "$formula-$formula_version" --title="$formula $formula_version" || true 
-            gh release upload "$formula-$formula_version" $bottle_file --clobber
-            cp -rf $(brew --prefix)/Homebrew/Library/Taps/celsiusnarhwal/homebrew-htt/Formula/$formula.rb Formula/
-            git commit -a -m "Update formula for $formula https://github.com/celsiusnarhwal/$formula"
-            git pull --rebase && git push
-            cd $og_dir
+          brew tap celsiusnarhwal/htt
+          echo "TAP=$(brew --repo celsiusnarhwal/htt)" >> $GITHUB_ENV
+
+      - name: Bottle Formulae
+        run: |
+          for formula in ${{ needs.check-formulae.outputs.formulae }}; do
+            "$(brew --repo celsiusnarhwal/htt)/bottle.sh" "$formula" ${{ matrix.os }}
           done
         env:
           GITHUB_TOKEN: ${{ github.token }}
-          HOMEBREW_GITHUB_PACKAGES_USER: ${{ github.repository_owner }}
-          HOMEBREW_GITHUB_PACKAGES_TOKEN: ${{ github.token }}
+
+      - name: Push Formulae Changes
+        uses: Homebrew/actions/git-try-push@master
+        with:
+          token: ${{ github.token }}
+          directory: ${{ env.TAP }}
+          branch: main
+          tries: 1
