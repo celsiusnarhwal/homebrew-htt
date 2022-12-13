@@ -8,7 +8,7 @@ from pathlib import Path
 
 os.chdir(subprocess.run(["brew", "--repo", "celsiusnarhwal/htt"], capture_output=True).stdout.decode().strip())
 
-formula, platform = sys.argv[1:]
+formula, platform = Path(sys.argv[1]).stem, sys.argv[2]
 formula_info = json.loads(subprocess.run(["brew", "info", "--json=v2", formula], capture_output=True).stdout.decode())
 formulae_version = formula_info["formulae"][0]["versions"]["stable"]
 release_tag = f"{formula}-{formulae_version}"
