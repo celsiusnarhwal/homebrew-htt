@@ -37,12 +37,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: Set Up Python
-        uses: actions/setup-python@v2
-
-      - name: Set Commit Author to GitHub Actions
-        run: |
-          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git config --global user.name "github-actions[bot]"
+        uses: actions/setup-python@v4
 
       - name: Tap HTT
         run: |
@@ -52,7 +47,40 @@ jobs:
       - name: Bottle Formulae
         run: |
           for formula in ${{ needs.check-formulae.outputs.formulae }}; do
-            "$(brew --repo celsiusnarhwal/htt)/bottle.sh" "$formula" ${{ matrix.os }}
+            "${{ env.TAP }}/scripts/yui.sh" "$formula" ${{ matrix.os }}
+          done
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+      - name: Upload JSON Files
+        uses: actions/upload-artifact@v3
+        with:
+          name: json
+          path: ${{ env.TAP }}/*.json
+
+  update-formulae:
+    name: Update Formulae
+    needs: build-bottles
+    runs-on: macos-latest
+    steps:
+      - name: Set Up Python
+        uses: actions/setup-python@v4
+
+      - name: Tap HTT
+        run: |
+          brew tap celsiusnarhwal/htt
+          echo "TAP=$(brew --repo celsiusnarhwal/htt)" >> $GITHUB_ENV
+
+      - name: Download JSON Files
+        uses: actions/download-artifact@v3
+        with:
+          name: json
+          path: ${{ env.TAP }}
+
+      - name: Write Bottle Blocks
+        run: |
+          for formula in ${{ needs.check-formulae.outputs.formulae }}; do
+            brew bottle --merge --write $(python3 "${{ env.TAP }}/scripts/ritsu.py" "$formula")
           done
         env:
           GITHUB_TOKEN: ${{ github.token }}
@@ -64,3 +92,4 @@ jobs:
           directory: ${{ env.TAP }}
           branch: main
           tries: 1
+

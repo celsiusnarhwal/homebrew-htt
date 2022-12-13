@@ -1,3 +1,5 @@
+import json
+import re
 import shutil
 import sys
 from pathlib import Path
@@ -11,5 +13,14 @@ assets = [bottle]
 if "macos" in platform:
     osx = {"macos-11": "big_sur", "macos-12": "monterey"}[platform]
     assets.append(Path(shutil.copy(bottle, bottle.name.replace(osx, f"arm64_{osx}"))).resolve())
+    json_filename = re.sub(r"(\d\.tar\.gz)", "json", bottle.name)
+
+    with open(json_filename, "w+") as json_file:
+        bottle_json = json.load(json_file)
+
+        bottle_json[next(iter(bottle_json))]["bottle"]["tags"][f"arm64_{osx}"] = \
+            bottle_json[next(iter(bottle_json))]["bottle"]["tags"][osx]
+
+        json.dump(bottle_json, json_file)
 
 print(" ".join(map(str, assets)))
