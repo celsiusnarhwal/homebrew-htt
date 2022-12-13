@@ -65,4 +65,4 @@ with Path(subprocess.run(["brew", "--repo", "celsiusnarhwal/htt"], capture_outpu
     except subprocess.CalledProcessError:
         pass
 
-    subprocess.run(["gh", "release", "upload", release_tag, *assets, "--clobber"])
+    subprocess.run(["gh", "release", "upload", release_tag, " ".join(map(str, assets)), "--clobber"])
