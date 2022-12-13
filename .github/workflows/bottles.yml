@@ -47,6 +47,7 @@ jobs:
 
       - name: Bottle Formulae
         run: |
+          pip install -r "${{ env.TAP }}/scripts/mio.requirements.txt"
           for formula in ${{ needs.check-formulae.outputs.formulae }}; do
             python3 "${{ env.TAP }}/scripts/mio.py" "$formula" ${{ matrix.os }}
           done
@@ -56,8 +57,9 @@ jobs:
       - name: Upload JSON Files
         uses: actions/upload-artifact@v3
         with:
-          name: json
-          path: ${{ env.TAP }}/*.json
+          name: bottles-${{ matrix.os }}
+          path: |
+            *.json
 
   update-formulae:
     name: Update Formulae
@@ -76,9 +78,6 @@ jobs:
 
       - name: Download JSON Files
         uses: actions/download-artifact@v3
-        with:
-          name: json
-          path: ${{ env.TAP }}
 
       - name: Write Bottle Blocks
         run: |

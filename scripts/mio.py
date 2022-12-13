@@ -4,35 +4,35 @@ import re
 import shutil
 import subprocess
 import sys
-from pathlib import Path
+from path import Path
+from github import Github as GitHub
 
-os.chdir(subprocess.run(["brew", "--repo", "celsiusnarhwal/htt"], capture_output=True).stdout.decode().strip())
+gh = GitHub(os.getenv("GITHUB_TOKEN"))
+htt = gh.get_repo("celsiusnarhwal/homebrew-htt")
 
 formula, platform = Path(sys.argv[1]).stem, sys.argv[2]
 formula_info = json.loads(subprocess.run(["brew", "info", "--json=v2", formula], capture_output=True).stdout.decode())
-formulae_version = formula_info["formulae"][0]["versions"]["stable"]
-release_tag = f"{formula}-{formulae_version}"
-release_title = f"{formula} {formulae_version}"
-root_url = f"https://github.com/celsiusnarhwal/homebrew-htt/releases/download/{release_tag}"
+formula_version = formula_info["formulae"][0]["versions"]["stable"]
+release_tag = f"{formula}-{formula_version}"
 
 subprocess.run(["brew", "install", "--build-bottle", f"celsiusnarhwal/htt/{formula}"])
 
 bottle = subprocess.run(
-    ["brew", "bottle", "--json", formula, f"--root_url={root_url}"],
+    ["brew", "bottle", "--json", formula, f"--root_url={htt.html_url}/releases/download/{release_tag}"],
     capture_output=True
 ).stdout.decode()
 
-bottle = Path(re.search(r"\./.*\.tar\.gz", bottle).group(0)).resolve()
+bottle = Path(re.search(r"\./.*\.tar\.gz", bottle).group(0)).realpath()
 
 assets = [bottle]
 
-# GitHub's macOS runners currently only support Intel architecture so we need to duplicate and rename macOS
-# bottles for Apple silicon.
 if "macos" in platform:
+    # GitHub's macOS runners currently only support Intel architecture so we need to duplicate and rename macOS
+    # bottles for Apple silicon.
     osx = {"macos-11": "big_sur", "macos-12": "monterey"}[platform]
-    assets.append(Path(shutil.copy(bottle, bottle.name.replace(osx, f"arm64_{osx}"))).resolve())
+    assets.append(Path(shutil.copy(bottle, bottle.name.replace(osx, f"arm64_{osx}"))).realpath())
 
-    json_file = next(Path.cwd().glob(f"{formula}*.json"))
+    json_file = next(Path.getcwd().glob(f"{formula}*.json"))
 
     bottle_json = json.load(json_file.open())
 
@@ -41,12 +41,26 @@ if "macos" in platform:
 
     json.dump(bottle_json, json_file.open("w"))
 
-try:
-    subprocess.run(
-        ["gh", "release", "create", release_tag, "--title", release_title, "--notes", f"{release_title} bottles"],
-        check=True
-    )
-except subprocess.CalledProcessError:
-    pass
+source = gh.get_repo(f"celsiusnarhwal/{formula}")
+release_title = f"{source.name} {formula_version}"
+release_notes_url = next(r for r in source.get_releases() if r.tag_name == release_tag).html_url
+license_url = source.get_license().html_url
 
-subprocess.run(["gh", "release", "upload", release_tag, *assets, "--clobber"])
+release_body = f"""
+```bash
+brew install celsiusnarhwal/htt/{formula}
+```
+
+[Source Repository]({source.html_url}) | [Release Notes]({release_notes_url}) | [License]({license_url})
+"""
+
+with Path(subprocess.run(["brew", "--repo", "celsiusnarhwal/htt"], capture_output=True).stdout.decode().strip()):
+    try:
+        subprocess.run(
+            ["gh", "release", "create", release_tag, "--title", release_title, "--notes", release_body],
+            check=True
+        )
+    except subprocess.CalledProcessError:
+        pass
+
+    subprocess.run(["gh", "release", "upload", release_tag, *assets, "--clobber"])

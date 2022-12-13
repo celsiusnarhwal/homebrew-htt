@@ -1,10 +1,6 @@
 import json
-import os
-import subprocess
 import sys
 from pathlib import Path
-
-os.chdir(subprocess.run(["brew", "--repo", "celsiusnarhwal/htt"], capture_output=True).stdout.decode().strip())
 
 formula = sys.argv[1]
 bottle_jsons = list(Path.cwd().glob(f"{formula}*.json"))
