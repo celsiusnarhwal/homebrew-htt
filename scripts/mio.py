@@ -66,4 +66,4 @@ with Path(subprocess.run(["brew", "--repo", "celsiusnarhwal/htt"], capture_outpu
         pass
 
     for asset in assets:
-        subprocess.run(["gh", "release", "upload", release_tag, asset.realpath(), "--clobber"], check=True)
+        subprocess.run(["gh", "release", "upload", release_tag, str(asset.realpath()), "--clobber"], check=True)
