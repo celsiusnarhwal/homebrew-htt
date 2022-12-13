@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 
 formula = sys.argv[1]
-bottle_jsons = list(Path.cwd().glob(f"{formula}*.json"))
+bottle_jsons = list(Path.cwd().glob(f"**/{formula}*.json"))
 final = json.load(bottle_jsons.pop().open())
 
 subprocess.run(["brew", "install", f"celsiusnarhwal/htt/{formula}"])
