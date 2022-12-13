@@ -82,7 +82,7 @@ jobs:
       - name: Write Bottle Blocks
         run: |
           for formula in ${{ needs.check-formulae.outputs.formulae }}; do
-            brew bottle --merge --write $(python3 "${{ env.TAP }}/scripts/ritsu.py" "$formula")
+            python3 "${{ env.TAP }}/scripts/ritsu.py" "$formula"
           done
         env:
           GITHUB_TOKEN: ${{ github.token }}

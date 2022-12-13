@@ -1,3 +1,5 @@
+# Merge bottle JSON files and commit changes to formulae.
+
 import json
 import subprocess
 import sys
