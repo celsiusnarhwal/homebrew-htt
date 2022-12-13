@@ -9,7 +9,7 @@ formula = Path(sys.argv[1]).stem
 bottle_jsons = list(Path.cwd().glob(f"**/{formula}*.json"))
 final = json.load(bottle_jsons.pop().open())
 
-subprocess.run(["brew", "install", f"celsiusnarhwal/htt/{formula}"])
+subprocess.run(["brew", "install", "--build-from-source", f"celsiusnarhwal/htt/{formula}"])
 
 while bottle_jsons:
     json_file = bottle_jsons.pop()
