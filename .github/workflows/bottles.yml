@@ -61,7 +61,7 @@ jobs:
 
   update-formulae:
     name: Update Formulae
-    needs: build-bottles
+    needs: [ check-formulae, build-bottles ]
     runs-on: macos-latest
     steps:
       - name: Set Up Python
@@ -82,7 +82,7 @@ jobs:
 
       - name: Write Bottle Blocks
         run: |
-          for formula in ${{ needs.build-bottles.needs.check-formulae.outputs.formulae }}; do
+          for formula in ${{ needs.check-formulae.outputs.formulae }}; do
             brew bottle --merge --write $(python3 "${{ env.TAP }}/scripts/ritsu.py" "$formula")
           done
         env:
