@@ -31,7 +31,7 @@ if "macos" in platform:
     # GitHub's macOS runners currently only support Intel architecture so we need to duplicate and rename macOS
     # bottles for Apple silicon.
     osx = {"macos-11": "big_sur", "macos-12": "monterey"}[platform]
-    assets.append(Path(shutil.copy(bottle, bottle.name.replace(osx, f"arm64_{osx}"))).realpath())
+    assets.append(Path.copy(bottle.name.replace(osx, f"arm64_{osx}")))
 
     json_file = next(Path.getcwd().walkfiles(f"{formula}*.json"))
 
@@ -44,7 +44,7 @@ if "macos" in platform:
 
 source = gh.get_repo(f"celsiusnarhwal/{formula}")
 release_title = f"{source.name} {formula_version}"
-release_notes_url = next(r for r in source.get_releases() if r.tag_name == release_tag).html_url
+release_notes_url = next(r for r in source.get_releases() if r.tag_name == formula_version).html_url
 license_url = source.get_license().html_url
 
 release_body = f"""
