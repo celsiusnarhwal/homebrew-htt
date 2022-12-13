@@ -54,6 +54,8 @@ brew install celsiusnarhwal/htt/{formula}
 [Source Repository]({source.html_url}) | [Release Notes]({release_notes_url}) | [License]({license_url})
 """
 
+print(assets)
+
 with Path(subprocess.run(["brew", "--repo", "celsiusnarhwal/htt"], capture_output=True).stdout.decode().strip()):
     try:
         subprocess.run(
