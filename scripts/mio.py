@@ -54,8 +54,6 @@ brew install celsiusnarhwal/htt/{formula}
 [Source Repository]({source.html_url}) | [Release Notes]({release_notes_url}) | [License]({license_url})
 """
 
-print(assets)
-
 with Path(subprocess.run(["brew", "--repo", "celsiusnarhwal/htt"], capture_output=True).stdout.decode().strip()):
     try:
         subprocess.run(
@@ -66,4 +64,6 @@ with Path(subprocess.run(["brew", "--repo", "celsiusnarhwal/htt"], capture_outpu
         pass
 
     for asset in assets:
+        if not asset.exists():
+            sys.exit(f"{asset.realpath()} does not exist")
         subprocess.run(["gh", "release", "upload", release_tag, str(asset.realpath()), "--clobber"], check=True)
