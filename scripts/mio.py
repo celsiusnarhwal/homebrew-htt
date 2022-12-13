@@ -4,8 +4,9 @@ import re
 import shutil
 import subprocess
 import sys
-from path import Path
+
 from github import Github as GitHub
+from path import Path
 
 gh = GitHub(os.getenv("GITHUB_TOKEN"))
 htt = gh.get_repo("celsiusnarhwal/homebrew-htt")
@@ -32,7 +33,7 @@ if "macos" in platform:
     osx = {"macos-11": "big_sur", "macos-12": "monterey"}[platform]
     assets.append(Path(shutil.copy(bottle, bottle.name.replace(osx, f"arm64_{osx}"))).realpath())
 
-    json_file = next(Path.getcwd().glob(f"{formula}*.json"))
+    json_file = next(Path.getcwd().walkfiles(f"{formula}*.json"))
 
     bottle_json = json.load(json_file.open())
 
