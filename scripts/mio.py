@@ -30,7 +30,7 @@ if "macos" in platform:
     # GitHub's macOS runners currently only support Intel architecture so we need to duplicate and rename macOS
     # bottles for Apple silicon.
     osx = {"macos-11": "big_sur", "macos-12": "monterey"}[platform]
-    assets.append(bottle.copy(bottle.name.replace(osx, f"arm64_{osx}")))
+    assets.append(Path(bottle.copy(bottle.name.replace(osx, f"arm64_{osx}"))))
 
     json_file = next(Path.getcwd().walkfiles(f"{formula}*.json"))
 
