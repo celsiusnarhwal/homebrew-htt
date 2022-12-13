@@ -22,7 +22,7 @@ bottle = subprocess.run(
     capture_output=True
 ).stdout.decode()
 
-bottle = Path(re.search(r"\./.*\.tar\.gz", bottle).group(0))
+bottle = Path.getcwd() / re.search(r"\./.*\.tar\.gz", bottle).group(0)
 
 assets = [bottle]
 
@@ -63,7 +63,8 @@ with Path(subprocess.run(["brew", "--repo", "celsiusnarhwal/htt"], capture_outpu
     except subprocess.CalledProcessError:
         pass
 
-    for asset in assets:
-        if not asset.exists():
-            sys.exit(f"{asset.realpath()} does not exist")
-        subprocess.run(["gh", "release", "upload", release_tag, str(asset.realpath()), "--clobber"], check=True)
+    if not all(asset.exists() for asset in assets):
+        nonexistent = [asset for asset in assets if not asset.exists()]
+        raise FileNotFoundError(f"Could not find the following files: {chr(10).join(nonexistent)}")
+
+    subprocess.run(["gh", "release", "upload", release_tag, " ".join(assets), "--clobber"], check=True)
