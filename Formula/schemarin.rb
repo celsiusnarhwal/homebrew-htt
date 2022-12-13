@@ -9,6 +9,15 @@ class Schemarin < Formula
   url "https://files.pythonhosted.org/packages/20/ac/fec2641699c5b51f011c6776e7db6bf5de828bb551da4c7fadc7a5ee3a6c/schemarin-1.0.2.tar.gz"
   sha256 "c2e045894bad4406d935935aa883e156ce0613335383f9065672f43480ce1eef"
 
+  bottle do
+    root_url "https://github.com/celsiusnarhwal/homebrew-htt/releases/download/schemarin-1.0.2"
+    rebuild 1
+    sha256 cellar: :any, arm64_monterey: "9fa78eb6597ce43b45dbef9220d6dfd7f5f18f96a89abc74483557ee0067db9f"
+    sha256 cellar: :any, arm64_big_sur:  "20680bb13bd88b54e18693de54584cef01a89f85a05dc83a3113c798fad8fda6"
+    sha256 cellar: :any, monterey:       "9fa78eb6597ce43b45dbef9220d6dfd7f5f18f96a89abc74483557ee0067db9f"
+    sha256 cellar: :any, big_sur:        "20680bb13bd88b54e18693de54584cef01a89f85a05dc83a3113c798fad8fda6"
+  end
+
   depends_on "python3"
   depends_on "libgit2"
 
