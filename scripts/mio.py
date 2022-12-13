@@ -44,6 +44,7 @@ bottle = subprocess.run(
 ).stdout.decode()
 
 bottle = Path.getcwd() / re.search(r"\./.*\.tar\.gz", bottle).group(0)
+bottle = bottle.rename(bottle.name.replace("--", "-"))
 assets.append(bottle)
 
 if "macos" in platform:
