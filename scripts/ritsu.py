@@ -5,7 +5,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-formula = sys.argv[1]
+formula = Path(sys.argv[1]).stem
 bottle_jsons = list(Path.cwd().glob(f"**/{formula}*.json"))
 final = json.load(bottle_jsons.pop().open())
 
