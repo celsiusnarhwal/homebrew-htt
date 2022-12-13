@@ -1,6 +1,5 @@
 # Homebrew formula for Emdy. https://github.com/celsiusnarhwal/emdy
 
-
 class Emdy < Formula
   include Language::Python::Virtualenv
 

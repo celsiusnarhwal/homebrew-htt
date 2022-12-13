@@ -37,6 +37,8 @@ jobs:
     steps:
       - name: Set Up Python
         uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
 
       - name: Tap HTT
         run: |
@@ -46,7 +48,7 @@ jobs:
       - name: Bottle Formulae
         run: |
           for formula in ${{ needs.check-formulae.outputs.formulae }}; do
-            "${{ env.TAP }}/scripts/yui.sh" "$formula" ${{ matrix.os }}
+            python3 "${{ env.TAP }}/scripts/mio.py" "$formula" ${{ matrix.os }}
           done
         env:
           GITHUB_TOKEN: ${{ github.token }}
@@ -64,6 +66,8 @@ jobs:
     steps:
       - name: Set Up Python
         uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
 
       - name: Tap HTT
         run: |
@@ -78,7 +82,7 @@ jobs:
 
       - name: Write Bottle Blocks
         run: |
-          for formula in ${{ needs.check-formulae.outputs.formulae }}; do
+          for formula in ${{ needs.build-bottles.needs.check-formulae.outputs.formulae }}; do
             brew bottle --merge --write $(python3 "${{ env.TAP }}/scripts/ritsu.py" "$formula")
           done
         env:
