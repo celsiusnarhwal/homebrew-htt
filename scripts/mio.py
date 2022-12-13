@@ -15,7 +15,7 @@ assets = [bottle]
 if "macos" in platform:
     osx = {"macos-11": "big_sur", "macos-12": "monterey"}[platform]
     assets.append(Path(shutil.copy(bottle, bottle.name.replace(osx, f"arm64_{osx}"))).resolve())
-    json_filename = re.sub(r"(\.\d*\.tar\.gz)", ".json", bottle.name)
+    json_filename = re.sub(r"(\.\d*\.tar\.gz)", ".json", bottle.name.replace("-", "--", 1))
 
     with Path(htt / json_filename).open("w+") as json_file:
         bottle_json = json.load(json_file)
