@@ -1,3 +1,5 @@
+# Build and publish bottles.
+
 import json
 import os
 import re
@@ -6,6 +8,25 @@ import sys
 
 from github import Github as GitHub
 from path import Path
+
+
+class AssetList(list):
+    def append(self, asset_path: Path) -> None:
+        asset_path = asset_path.realpath()
+
+        if not isinstance(asset_path, Path):
+            raise TypeError("asset_path must be a Path object")
+
+        if not asset_path.exists():
+            raise FileNotFoundError(asset_path)
+
+        if not asset_path.isfile():
+            raise IsADirectoryError(asset_path)
+
+        super().append(asset_path)
+
+
+assets = AssetList()
 
 gh = GitHub(os.getenv("GITHUB_TOKEN"))
 htt = gh.get_repo("celsiusnarhwal/homebrew-htt")
@@ -23,8 +44,7 @@ bottle = subprocess.run(
 ).stdout.decode()
 
 bottle = Path.getcwd() / re.search(r"\./.*\.tar\.gz", bottle).group(0)
-
-assets = [bottle]
+assets.append(bottle)
 
 if "macos" in platform:
     # GitHub's macOS runners currently only support Intel architecture so we need to duplicate and rename macOS
@@ -67,4 +87,7 @@ with Path(subprocess.run(["brew", "--repo", "celsiusnarhwal/htt"], capture_outpu
         nonexistent = [asset for asset in assets if not asset.exists()]
         raise FileNotFoundError(f"Could not find the following files: {chr(10).join(nonexistent)}")
 
-    subprocess.run(["gh", "release", "upload", release_tag, " ".join(assets), "--clobber"], check=True)
+    subprocess.run(
+        ["gh", "release", "upload", release_tag, " ".join(assets), "--clobber"],
+        check=True
+    )
