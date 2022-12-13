@@ -22,7 +22,7 @@ bottle = subprocess.run(
     capture_output=True
 ).stdout.decode()
 
-bottle = Path(re.search(r"\./.*\.tar\.gz", bottle).group(0)).realpath()
+bottle = Path(re.search(r"\./.*\.tar\.gz", bottle).group(0))
 
 assets = [bottle]
 
@@ -66,4 +66,4 @@ with Path(subprocess.run(["brew", "--repo", "celsiusnarhwal/htt"], capture_outpu
         pass
 
     for asset in assets:
-        subprocess.run(["gh", "release", "upload", release_tag, asset, "--clobber"], check=True)
+        subprocess.run(["gh", "release", "upload", release_tag, asset.realpath(), "--clobber"], check=True)
