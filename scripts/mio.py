@@ -87,7 +87,8 @@ with Path(subprocess.run(["brew", "--repo", "celsiusnarhwal/htt"], capture_outpu
         nonexistent = [asset for asset in assets if not asset.exists()]
         raise FileNotFoundError(f"Could not find the following files: {chr(10).join(nonexistent)}")
 
-    subprocess.run(
-        ["gh", "release", "upload", release_tag, " ".join(assets), "--clobber"],
-        check=True
-    )
+    for asset in assets:
+        subprocess.run(
+            ["gh", "release", "upload", release_tag, asset, "--clobber"],
+            check=True
+        )
