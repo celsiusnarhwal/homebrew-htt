@@ -39,7 +39,7 @@ if "macos" in platform:
     bottle_json[next(iter(bottle_json))]["bottle"]["tags"][f"arm64_{osx}"] = \
         bottle_json[next(iter(bottle_json))]["bottle"]["tags"][osx]
 
-    json.dump(bottle_json, json_file)
+    json.dump(bottle_json, json_file.open("w"))
 
 try:
     subprocess.run(
