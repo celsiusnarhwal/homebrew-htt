@@ -3,8 +3,8 @@ class RmTrash < Formula
 
   desc "🗑 Safe(r) deletion of files from the macOS command line"
   homepage "https://github.com/celsiusnarhwal/rm-trash"
-  url "https://files.pythonhosted.org/packages/8e/a5/216f55cf4a893bbefb033762ac6fb4c16ea70b2976e2b746e6bb8f7f65d4/rm_trash-1.0.0.tar.gz"
-  sha256 "80c823b663e2a029cd17709f640c077e23dd88d00fab57ce747cb2d5371c5328"
+  url "https://files.pythonhosted.org/packages/67/31/6108ea3f7fe3918dace2ac91b7f62bb2b08ca31974dd6fbae6ad15d07e82/rm_trash-1.0.1.tar.gz"
+  sha256 "6bdbb5612dc2f0921c2060ebd56d0e7d7a1a9e9f6cbc9b504397da90a5f6b0e6"
 
   depends_on "python3"
 
