@@ -3,17 +3,8 @@ class RmTrash < Formula
 
   desc "🗑 Safe(r) deletion of files from the macOS command line"
   homepage "https://github.com/celsiusnarhwal/rm-trash"
-  url "https://files.pythonhosted.org/packages/67/31/6108ea3f7fe3918dace2ac91b7f62bb2b08ca31974dd6fbae6ad15d07e82/rm_trash-1.0.1.tar.gz"
-  sha256 "6bdbb5612dc2f0921c2060ebd56d0e7d7a1a9e9f6cbc9b504397da90a5f6b0e6"
-
-  bottle do
-    root_url "https://github.com/celsiusnarhwal/homebrew-htt/releases/download/rm-trash-1.0.1"
-    rebuild 1
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "95b431648dba617a7830b131882225412d008ff997ea39e8761205683b319ccf"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "08c8539640047c2db9841d41dfe2b5afe1696f3ab65a8f6ff7c32f44f0ccf99a"
-    sha256 cellar: :any_skip_relocation, monterey:       "95b431648dba617a7830b131882225412d008ff997ea39e8761205683b319ccf"
-    sha256 cellar: :any_skip_relocation, big_sur:        "08c8539640047c2db9841d41dfe2b5afe1696f3ab65a8f6ff7c32f44f0ccf99a"
-  end
+  url "https://files.pythonhosted.org/packages/1f/34/6125d839c75b0736d3eacbefec285c0b983cd3f82c20455f66be390ff25f/rm_trash-1.0.2.tar.gz"
+  sha256 "8cc2454e4cf5056178c3d8883723798f27c05f0d120419cbc9f32d32a48e658f"
 
   depends_on "python3"
 
