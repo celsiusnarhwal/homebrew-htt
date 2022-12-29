@@ -6,6 +6,15 @@ class RmTrash < Formula
   url "https://files.pythonhosted.org/packages/1f/34/6125d839c75b0736d3eacbefec285c0b983cd3f82c20455f66be390ff25f/rm_trash-1.0.2.tar.gz"
   sha256 "8cc2454e4cf5056178c3d8883723798f27c05f0d120419cbc9f32d32a48e658f"
 
+  bottle do
+    root_url "https://github.com/celsiusnarhwal/homebrew-htt/releases/download/rm-trash-1.0.2"
+    rebuild 1
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "5356326df494ab36140580047def2acbba31db543e39795556bbfa9e6fb230cb"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "e36d3de68c75a08f5362a355b732b72dd55d760bb74a6934bcaeeafc462ca363"
+    sha256 cellar: :any_skip_relocation, monterey:       "5356326df494ab36140580047def2acbba31db543e39795556bbfa9e6fb230cb"
+    sha256 cellar: :any_skip_relocation, big_sur:        "e36d3de68c75a08f5362a355b732b72dd55d760bb74a6934bcaeeafc462ca363"
+  end
+
   depends_on "python3"
 
   resource "click" do
