@@ -14,7 +14,7 @@ The Tap's formulae are currently bottled for macOS Big Sur and macOS Monterey on
 other version of macOS (including Ventura) or Linux will be relegated to building from source.
 
 Note that there is a delay between the release a new version of a formula and the availability of bottles for it.
-Bottles are published automatically to [Releases](/releases); check there for the latest updates.
+Bottles are published automatically to [Releases](https://github.com/celsiusnarhwal/homebrew-htt/releases); check there for the latest updates.
 
 ## License
 
