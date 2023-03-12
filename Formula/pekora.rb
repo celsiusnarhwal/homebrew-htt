@@ -3,8 +3,8 @@ class Pekora < Formula
 
   desc "A command-line calculator for Discord permission values"
   homepage "https://pekora.celsiusnarhwal.dev"
-  url "https://files.pythonhosted.org/packages/6d/91/fec7cef7373fca1494a7fd74d5319e5df739d023bd6541260e3c63eea75c/pekora-1.0.0.tar.gz"
-  sha256 "580041aa6012bc3c780b172a610ace0ce5e3e953a5dc0ea3598e7827f8377484"
+  url "https://files.pythonhosted.org/packages/ed/97/7ae67e08ae5ea7cdfd0212a1b7749ba86a67634e08989e8637c56b07ae81/pekora-1.0.1.tar.gz"
+  sha256 "26f15981a2c1c53ccdffa83d5014c0c6cd7368fce8ae64ea31f5b9cd3d345671"
 
   depends_on "python3"
   
