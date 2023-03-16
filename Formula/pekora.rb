@@ -3,17 +3,8 @@ class Pekora < Formula
 
   desc "A command-line calculator for Discord permission values"
   homepage "https://pekora.celsiusnarhwal.dev"
-  url "https://files.pythonhosted.org/packages/b0/f7/cb3cb27f2c4d976ec136b543c02e4bc606783de96b2e4b95d1bb76d97708/pekora-1.0.4.tar.gz"
-  sha256 "3d5292114f0f49a200ce3aaf8a899e4b5208b4c6b44e2c3f3a1d826496f709c1"
-
-  bottle do
-    root_url "https://github.com/celsiusnarhwal/homebrew-htt/releases/download/pekora-1.0.4"
-    rebuild 1
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "567a5b9a78cafcd395db5b2a4c95f1ceee25c15ba1dc42f27b7a5a3796f46aa1"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "042bc3388d55b2005fa4467ff0794edda7c9117291d821aecb2691a6863a979e"
-    sha256 cellar: :any_skip_relocation, monterey:       "567a5b9a78cafcd395db5b2a4c95f1ceee25c15ba1dc42f27b7a5a3796f46aa1"
-    sha256 cellar: :any_skip_relocation, big_sur:        "042bc3388d55b2005fa4467ff0794edda7c9117291d821aecb2691a6863a979e"
-  end
+  url "https://files.pythonhosted.org/packages/34/5a/048c5ea45edde6c3bb43364ecb7681f3e581777ce9e1519b8215c6477d3f/pekora-1.0.5.tar.gz"
+  sha256 "70f133c59d4bf9e1f562a03e5a98958face411af37487c6436aef595c80fe98f"
 
   depends_on "python3"
   
