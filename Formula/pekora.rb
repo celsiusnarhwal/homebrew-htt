@@ -6,6 +6,15 @@ class Pekora < Formula
   url "https://files.pythonhosted.org/packages/34/5a/048c5ea45edde6c3bb43364ecb7681f3e581777ce9e1519b8215c6477d3f/pekora-1.0.5.tar.gz"
   sha256 "70f133c59d4bf9e1f562a03e5a98958face411af37487c6436aef595c80fe98f"
 
+  bottle do
+    root_url "https://github.com/celsiusnarhwal/homebrew-htt/releases/download/pekora-1.0.5"
+    rebuild 1
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "991c81d52fc2e6ea530fcb7fe7ede0b94dde092cd635080f3124f7a2707eae6a"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "b03773a1f56a35b6f04b7dbc06c73b4daec4b8092b3836093f65ffcab4b023c7"
+    sha256 cellar: :any_skip_relocation, monterey:       "991c81d52fc2e6ea530fcb7fe7ede0b94dde092cd635080f3124f7a2707eae6a"
+    sha256 cellar: :any_skip_relocation, big_sur:        "b03773a1f56a35b6f04b7dbc06c73b4daec4b8092b3836093f65ffcab4b023c7"
+  end
+
   depends_on "python3"
   
   resource "aiohttp" do
